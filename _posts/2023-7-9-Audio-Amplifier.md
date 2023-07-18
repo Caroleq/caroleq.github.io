@@ -7,6 +7,8 @@ tags:
   how-to
   web
 ---
+
+
 This article(post?) contains a description of an audio amplifier I built as a DIY project for the purpose of learning electronics. The post discusses design of electronic circuit of the amplifier. It also discusses simulations and analyses that were run on the KiCad amplifier model to check if the amplifier operation meets requirements(?) (simulation behaviour can differ from physical device behaviour, so desired results of simulation do not guarantee desired operation of real amplifier). KiCad project with electronic circuit schematic and PCB design is attached here(todo). Finally the post describes physical construction of the device and attempts to start the built amplifier.
 
 Do czego służy wzmacniacz audio? 
@@ -40,7 +42,7 @@ Before starting the design of the amplifier I set requirements for:
 
 
 ## 2. General idea (todo: rename?)
-Currently used audio amplifiers are divided into a few classes (link). I decided to build an amplifier of class AB, because it is relatively easy to construct as a DIY project and has relatively few disadvantages compared to other classes e.g. class A. My amplifier consists of three main parts (or maybe components?): differential pair, cascode and Shiklay pair. All of them are widely known building blocks of electronic circuits, so this article does not describe their operation (if you do not know how they work - google it). Role of each amplifier part is specified in a separate subsection.
+Currently used audio amplifiers are divided into a few classes (link). I decided to build an amplifier of class AB, because it is relatively easy to construct as a DIY project and has relatively few disadvantages compared to other classes e.g. class A. My amplifier consists of three main parts (or maybe components?): differential pair, cascode and output part. All of them are widely known building blocks of electronic circuits (todo: refactor), so this article does not describe their operation (if you do not know how they work - google it). Role of each amplifier part is specified in a separate subsection.
 
 
 ### 2.1 Differential Pair
@@ -62,18 +64,64 @@ TODO: formula for feedback?
 TODO: schema?
 
 ### 2.2 Cascode
-The second stage is cascode. Its function is to amplify voltage signal coming from the previous stage. Cascode provides the largest part of voltage amplification of all stages. I chose cascode as a second stage, because of moderately high input impedance and wide bandwidth. If I needed to increase overall amplifier voltage gain I could use two cascodes connected in series instead of one. Operating points of cascode transistors are set with voltage divider.
+The second stage of the amplifier is cascode. Its function is to amplify voltage signal coming from the previous stage. Cascode provides the largest part of voltage amplification of all stages. I chose cascode as a second stage, because of moderately high input impedance and wide bandwidth. If I needed to increase overall amplifier voltage gain I could use two cascodes connected in series instead of one. Operating points of cascode transistors are set with voltage divider. Signal from cascode is transmitted to Shiklay Pair.
 
 
-### 2.3 Shiklay pair 
+### 2.3 Output stage 
+Output stage is the final stage of the amplifier. Its main function is to provide high power to the load (i.e. loud speaker). Voltage amplified signal is taken from the previous stage and passed to the load. Output stage enables load to draw sufficiently high current. Therefore it provides a high power to the load (power is product of voltage and current).
+Apart from supplying sufficient power, the stage has to produce output signal with characteristics class AB amplifier. That is operation of output stage should be more efficient than operation of class A amplifier and crossover distortion should not occur.
+The stage is implemented as a biased push-pull amplifier. Two complementary Sziklai pairs are components of push-pull pair which alternately turn on and off. I chose Sziklai pairs, because they can supply greater current than a single transistor.
+Output of this stage is connected to differential pair forming feedback loop.
 
-todo: 2.4 to describe components connections?
+### 2.4 Simplified schema of the amplifier
+To better illustrate operaton of the amplifier I added its simplified schema. Many elements which are present in the real amplifier are skipped here, because the goal is to demonstrate general operation of the amplifier. Diagram is split by vertical lines into three parts, one for each stage. 
 
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/amplifier-simplified.png)
+
+Role of some of the electronic elements from the schema is listed below: 
+1. Differential stage:
+- transistor Q1 - takes amplifer input signal 
+- transistor Q2 - takes feedback loop signal 
+- transistors Q3, Q4, Q5 - form Wilson(?) current mirror
+2. Cascode:
+- resistors R1, R2, R3 - set operating point of cascode transistors
+- transistor Q7 - forms common emitter part of cascode
+- transistor Q6 - forms common base part of cascode
+3. Output stage:
+- diodes D1, D2 - add biasing of push-pull pair
+- transistors Q8, Q10 - Sziklai pair in NPN configuration 
+- transistors Q9, Q11 - Sziklai pair in PNP configuration 
 
 ## 3. Electronic design
-Electronic design of the amplifier is split into two modules: first module contains a circuit introduced in previous section for amplifying a signal, the second module serves as a reliable (and stable?) power supply. Circuits were modeled using KiCad software. Beforehand mentioned modules are described in the following subsections. 
+Electronic design of the amplifier is split into two modules: first module contains a circuit introduced in previous section for amplifying a signal, the second module serves as a reliable (and stable?) power supply. Each module has its own electronic board. Circuits were modeled using KiCad software. Beforehand mentioned modules are described in the following subsections. 
 
 ### 3.1 Main amplifier module
+This section provides complete electronic design of the amplifier. General idea of amplifier operation and its schema is discussed in the previous chapter, so here I just describe details of the electronic design, which were not provided so far (like usage of additional elements, choosing elements values, expected current and voltage levels etc.). 
+
+#### 3.1.1 Differential Pair
+Screen of the KiCad model of the subcircuit is provied below. 
+
+
+Notes regarding the schema: 
+1. Transistor models. I used transistors BC817 and BC807, because ... . 
+2. Current source. I implemented current source as a transistor biased with two resistors. Additionally there is potentiometer, which can be used to regulate current value a little bit. When potentiometer's resistance is split equally on both sides, the current source should be able to produce TODO mA.
+3. Resistor R5
+4. Input capacitor C1
+5. Voltage divider of feedback loop
+6. Resistors R9 and R10
+
+#### 3.1.2 Cascode
+
+
+Notes regarding the schema: 
+1. Potentiometer RV3
+2. Connecting cascode and output from differential pair with capacitor
+3. Capacitor C3
+
+
+#### 3.1.3 
+
+#### 3.1.4
 
 Especially big impact on gain response shape had voltage divider of feedback loop (Resistors ??? and ???). Minor change of 
 
@@ -81,7 +129,7 @@ Especially big impact on gain response shape had voltage divider of feedback loo
 
 
 ## 4. Frequency analysis   
-To check if the amplifier response meets requirements accross amplification frequency range I run a frequency analysis. I computed gain and phase shift of the amplifier in frequency domain using SPICE program [Description how to click it?]. Subsections below present analysis results for ....   
+To check if the amplifier response meets requirements accross amplification frequency range I ran a frequency analysis. I computed gain and phase shift of the amplifier in frequency domain using SPICE program [Description how to click it?]. Subsections below present analysis results for ....   
 Diagrams below present gain and pahe shift for a final version of the amplifier. When I initially created the electronic cricuit the results did not meet requirements and values of some resistors and capacitors needed to be tuned to improve the shape of gain and shift-phase responses.  
 ### 4.1 Analysis of amplitude gain
 As mentioned in the requirements section, changes of gain values in frequency range 10Hz-20kHz should be small. [Zapas??]  
