@@ -95,7 +95,7 @@ Role of some of the electronic elements from the schema is listed below:
 ## 3. Electronic design
 Electronic design of the amplifier is split into two modules: first module contains a circuit introduced in previous section for amplifying a signal, the second module serves as a reliable (and stable?) power supply. Each module has its own electronic board. Circuits were modeled using KiCad software. Beforehand mentioned modules are described in the following subsections. 
 
-### 3.1 Main amplifier module
+### 3.1 Details of main amplifier module
 This section provides complete electronic design of the amplifier. General idea of amplifier operation and its schema is discussed in the previous chapter, so here I just describe details of the electronic design, which were not provided so far (like usage of additional elements, choosing elements values, expected current and voltage levels etc.). 
 
 #### 3.1.1 Differential Pair
@@ -103,23 +103,32 @@ Screen of the KiCad model of the subcircuit is provied below.
 
 
 Notes regarding the schema: 
-1. Transistor models. I used transistors BC817 and BC807, because ... . 
-2. Current source. I implemented current source as a transistor biased with two resistors. Additionally there is potentiometer, which can be used to regulate current value a little bit. When potentiometer's resistance is split equally on both sides, the current source should be able to produce TODO mA.
-3. Resistor R5
+1. Current source. I implemented current source as a transistor biased with two resistors. Additionally there is potentiometer, which can be used to regulate current value a little bit. When potentiometer's resistance is split equally on both sides, the current source should be able to produce TODO mA.
+2. Resistor R5
+3. Resistors R9 and R10
 4. Input capacitor C1
 5. Voltage divider of feedback loop
-6. Resistors R9 and R10
+
+
+TODO: describe result of analysis
 
 #### 3.1.2 Cascode
+Screen of the KiCad model of the subcircuit is provied below. 
+
+Notes regarding the schema: 
+1. Potentiometer RV3 - voltage amplification of cascode during simulation was satisfactory, but I decided to add possibility to change operating points of cascode transistors in case physical model differs from simulation.
+2. Connecting output of differential pair and cascode through capacitor C4 - capacitor cuts DC component from signal so it does not impact cascode operating points. Differential pair has high output impedance, so impedance of C4 (together with whole cascode ?) should not be too high, because it would disturb operation of differential pair.
+3. Capacitor C3 - high freq filter? Resistance without impact on ... ?
+
+#### 3.1.3 Output stage
+Screen of the KiCad model of the subcircuit is provied below. 
 
 
 Notes regarding the schema: 
-1. Potentiometer RV3
-2. Connecting cascode and output from differential pair with capacitor
-3. Capacitor C3
-
-
-#### 3.1.3 
+1. Connecting output stage and output from cascode with capacitor
+2. Using transistors as diodes (Q10, Q11) - instead of conventional diodes two transistors with bases connected to collectors are used. For some reason implementing diodes with transistors from Sziklai pairs (the same transistor model) gave far better results on simulation than ordinary diodes. I suppose this is because characteristics of such implemented diodes are similar to characteristics of the first transistors of Sziklai pairs (Q9 and Q12).
+3. resistors R21 and R19
+4. resistors R4 and R18
 
 #### 3.1.4
 
@@ -141,7 +150,8 @@ The phase shift along the change of frequencies should remain as small as possib
 
 ## 5. Physical construction
 
-
+TODO: opisać co było w THT, a co w PCB i dlaczego.
+1. Transistor models. I used transistors BC817 and BC807, because ... . 
 ### 5.1 PCB design 
 
 ## 6. Starting-up the amplifier
