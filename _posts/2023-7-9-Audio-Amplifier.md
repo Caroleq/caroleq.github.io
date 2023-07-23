@@ -1,17 +1,14 @@
 ---
 layout: post
 title: DIY Audio Amplifier Project
-date: 2018-03-13 00:01:00 +0000
+date: 2023-07-23 00:00:00 +0000
 tags:
-  cpplang-slack
-  how-to
-  web
+  audio-amplifer
+  electronics
 ---
 
 
 This article(post?) contains a description of an audio amplifier I built as a DIY project for the purpose of learning electronics. The post discusses design of electronic circuit of the amplifier. It also discusses simulations and analyses that were run on the KiCad amplifier model to check if the amplifier operation meets requirements(?) (simulation behaviour can differ from physical device behaviour, so desired results of simulation do not guarantee desired operation of real amplifier). KiCad project with electronic circuit schematic and PCB design is attached here(todo). Finally the post describes physical construction of the device and attempts to start the built amplifier.
-
-Do czego służy wzmacniacz audio? 
 
 Prerequisites: The article does not explain basic concepts of electronics, electronic elements and building blocks of electronic circuits that are widely known and their descriptions can be easily found on the Internet. 
 
@@ -99,40 +96,41 @@ Electronic design of the amplifier is split into two modules: first module conta
 This section provides complete electronic design of the amplifier. General idea of amplifier operation and its schema is discussed in the previous chapter, so here I just describe details of the electronic design, which were not provided so far (like usage of additional elements, choosing elements values, expected current and voltage levels etc.). 
 
 #### 3.1.1 Differential Pair
-Screen of the KiCad model of the subcircuit is provied below. 
+Screen of the KiCad model of the subcircuit is provided below. 
 
 
 Notes regarding the schema: 
 1. Current source. I implemented current source as a transistor biased with two resistors. Additionally there is potentiometer, which can be used to regulate current value a little bit. When potentiometer's resistance is split equally on both sides, the current source should be able to produce TODO mA.
-2. Resistor R5
+2. Resistor R5 - sets operating point of transistor Q1. Current flowing through Q1 is controlled by the current source. For the current to flow through Q1's collector, Q1's base also needs to draw current from somewhere. Current cannot be drawn from input since its direct current component is cut off by C1 capacitor. Therefore a resistor connected to ground is added to Q1's base to enable current flow through the base. A side effect of adding the resistor is a limitation of an input impedance of the amplifier. Too law input impedance could possibly destroy computer network card. Computing the voltage/current ratio of input signal showed that input impedance is around 1k$$\Omega$$, which hopefully would be sufficiently high.
 3. Resistors R9 and R10
-4. Input capacitor C1
-5. Voltage divider of feedback loop
+4. Input capacitor C1 - cuts off direct current component of the input signal.
+5. Voltage divider of feedback loop - direct connecting feedback signal to amplifier did not give good simulation results. I had to calibrate the weight of feedback loop signal by multiplying it by gain (less than 1) of voltage divider. It was hard to find resistor values which would give satisfactory amplifier behaviour on the simulation. Changing resistor values of the divider by 1 $$\Omega$$ could drastically change the shape of amplifier response (1 $$\Omega$$ is often more than tolarance of a resistor). A possible explanation is that there were some errors in KiCad calculations of the response. Finally I managed to find resistor values which gave expected gain and response shape. However there was no guarantee that the real amplifier will behave exactly the same as the simulation. Therefore I added two potentiometers to enable tuning of feedback signal weight.
 
+Final simulation results: 
+Amplifier input was a sine wave of +0.
 
-TODO: describe result of analysis
+TODO: describe result of analysis. 
 
 #### 3.1.2 Cascode
-Screen of the KiCad model of the subcircuit is provied below. 
+Screen of the KiCad model of the subcircuit is provided below. 
 
 Notes regarding the schema: 
-1. Potentiometer RV3 - voltage amplification of cascode during simulation was satisfactory, but I decided to add possibility to change operating points of cascode transistors in case physical model differs from simulation.
-2. Connecting output of differential pair and cascode through capacitor C4 - capacitor cuts DC component from signal so it does not impact cascode operating points. Differential pair has high output impedance, so impedance of C4 (together with whole cascode ?) should not be too high, because it would disturb operation of differential pair.
-3. Capacitor C3 - high freq filter? Resistance without impact on ... ?
+1. Potentiometer RV3 - voltage amplification of cascode during simulation was satisfactory, but I decided to add possibility to change operating point of cascode transistors in case physical model differs from simulation.
+2. Connecting output of differential pair and cascode through capacitor C4 - capacitor cuts DC component from signal so it does not impact cascode operating point. 
+3. Capacitor C3 - lowers value of Q16 emitter resistance without an influence on operating point of transistors. Resistor R27 impacts the operating point of the cascode. For DC current capacitor is a break in the circuit, so C3 does not influence  the operating point of the cascode's transistors. For amplified AC signal, C3 is an element with finite impedance. Therefore C3 connected parallelly with R27 lowers Q16 emitter resistance for amplified AC signal, which increases cascode gain.  
+4. Input impedance of cascode - Differential pair has high output impedance, so impedance of C4 (together with whole cascode ?) should not be also be too low, because it would disturb operation of differential pair.
+5. 
 
 #### 3.1.3 Output stage
-Screen of the KiCad model of the subcircuit is provied below. 
+Screen of the KiCad model of the subcircuit is provided below. 
 
 
 Notes regarding the schema: 
-1. Connecting output stage and output from cascode with capacitor
+1. Connecting output stage and output from cascode with capacitor - capacitor cuts DC component from signal so it does not impact output stage operating point. 
 2. Using transistors as diodes (Q10, Q11) - instead of conventional diodes two transistors with bases connected to collectors are used. For some reason implementing diodes with transistors from Sziklai pairs (the same transistor model) gave far better results on simulation than ordinary diodes. I suppose this is because characteristics of such implemented diodes are similar to characteristics of the first transistors of Sziklai pairs (Q9 and Q12).
-3. resistors R21 and R19
+3. resistors R21 and R19 - these resistors prevent leakage current and improve turn-off speed of Sziklai pairs. It is described in more datail in [3].
 4. resistors R4 and R18
-
-#### 3.1.4
-
-Especially big impact on gain response shape had voltage divider of feedback loop (Resistors ??? and ???). Minor change of 
+5. Connecting output stage and amplfier output with capacitor - capacitor cuts DC component from signal. Only AC current should be provided to a speaker, DC current could break it (why?).
 
 ### 3.2 Powering module
 
@@ -149,7 +147,16 @@ With this in mind I changed values of resistors and capacitors in a few places i
 The phase shift along the change of frequencies should remain as small as possible? Why? Instability? Sound?  
 
 ## 5. Physical construction
+The most important decisions regarding physical construction of the amplifier were:
+1. How (if at all) to split different amplifier components into multiple stages. 
+2. The way of mounting electronic elements on the board (PCB or THT). 
+Main amplifier board: maximum current that is supposed to flow through the first two amplifier stages is not expected to exceed X mA. Therefore I decided to use PCB mounting for their elements. The output stage is intended to pass a relatively big current (up to Y mA). PCB elements which are 
+Powering board: 
 
+
+
+
+todo: opisać typy obudowy
 TODO: opisać co było w THT, a co w PCB i dlaczego.
 1. Transistor models. I used transistors BC817 and BC807, because ... . 
 ### 5.1 PCB design 
@@ -160,3 +167,4 @@ TODO: opisać co było w THT, a co w PCB i dlaczego.
 ## 7. References
 1. Paul Horwitz, Winfield Hill, The Art of Electronics, 3rd edition (Cambridge University Press, 2015). Section 2.3.8: Differential amplifiers  
 2. Douglas Self, Audio Power Amplifier Design Handbook, 4th edition (Focal Press, 2006). Section: TODO
+3. Paul Horwitz, Winfield Hill, The Art of Electronics, 3rd edition (Cambridge University Press, 2015). Section 2.4.2 Darlington connection  
