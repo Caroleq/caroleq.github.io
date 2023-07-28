@@ -3,44 +3,40 @@ layout: post
 title: DIY Audio Amplifier Project
 date: 2023-07-23 00:00:00 +0000
 tags:
-  audio-amplifer
+  audio-amplifier
   electronics
 ---
 
 
-This article(post?) contains a description of an audio amplifier I built as a DIY project for the purpose of learning electronics. The post discusses design of electronic circuit of the amplifier. It also discusses simulations and analyses that were run on the KiCad amplifier model to check if the amplifier operation meets requirements(?) (simulation behaviour can differ from physical device behaviour, so desired results of simulation do not guarantee desired operation of real amplifier). KiCad project with electronic circuit schematic and PCB design is attached here(todo). Finally the post describes physical construction of the device and attempts to start the built amplifier.
+This post contains a description of an audio amplifier I built as a DIY project for the purpose of learning electronics. The post discusses design of electronic circuit of the amplifier. It also discusses simulations and analyses that were run on the KiCad amplifier model to check if the amplifier operation meets expectations (simulation behavior can differ from physical device behavior, so desired results of simulation do not guarantee desired operation of real amplifier). KiCad project with electronic circuit schematic and PCB design is attached here(todo). Finally the post describes physical construction of the device and attempts to start the built amplifier. While designing the amplifier I used Audio Power Amplifier Design Handbook as a reference. Most of the ideas used to create the project is taken from this book, although my amplifier is not a direct copy of any amplifier presented there.
 
 Prerequisites: The article does not explain basic concepts of electronics, electronic elements and building blocks of electronic circuits that are widely known and their descriptions can be easily found on the Internet. 
 
-Caution: If you plan to use this post to built your own amplifier to be careful about your speaker and computer (or other equipment) which you connect to the amplifier. If the amplifier draws too big current from the computer, the soundcard may get damaged. Also if the amplifier transmits too much power to the speaker, the speaker may get damaged. Check how much current can be drawn from the soundcard and how much power can be provided to the speaker before connecting the amplifier to it (more spacs?). I give no guarantee that electronic equipment will not break after being connected to the amplfier I present in this article. 
+Caution: If you plan to use this post to built your own amplifier be careful about your speaker and computer (or other equipment) which you connect to the amplifier. If the amplifier draws too big current from the computer, the soundcard may get damaged. Also if the amplifier transmits too much power to the speaker, the speaker may get damaged. Check how much current can be drawn from the soundcard and how much power can be provided to the speaker before connecting the amplifier to it. I give no guarantee that electronic equipment will not break after being connected to the amplifier I present in this article. 
 
 Acknowledgements: Thank you to Joachim for helping me with this project.
 
-## Table of contents
-1. [Requirements and constraints] Requirements and constraints
+## 1. Requirements and assumptions
+Before starting the design I set assumptions for input signal and output load (i. e. loudspeaker) parameters:   
+Input signal:
+- voltage range - I assumed that voltage range will fit into range from -0.5V to +0.5V. I picked this range, because it fits [consumer line level](https://en.wikipedia.org/wiki/Line_level). However later after designing electrical circuit and creating physical device I measured voltage on minijack on my PC, the peak-to-peak voltage reached almost 2V. This is a different result than what I expected. As a workaround I decided to add a potentiometer in series with the whole amplifier.
+- frequencies range - humans are able to hear sounds in a frequency range from about 10 Hz to 20 kHz. Therefore I assumed that frequencies of input signal would be in a range 10Hz-20kHz.   
 
+Speaker connected to amplifier:   
+- input impedance - impedance of the most of loudspeakers is in range from 4Ω to 12Ω. I assumed that impedance of speakers connected to my amplifier will be around 8Ω. Loudspeaker with impedance lower than 8Ω can be connected to the amplifier in series with a resistor of value (8 - loudspeaker resistance)Ω.
+- maximum input power - most of loudspeakers can get maximum power value of 10-20W. I assumed that speakers connected to my amplifier can get up to 20W. 
 
-
-## 1. Requirements, constraints, assumptions
-Before starting the design of the amplifier I set requirements for:   
-1. Input signal:
-- voltage range: I set it to -0.5V - +0.5V. TODO: explain why?  
-- frequencies range: Humans are able to hear sounds in a frequency range from about 10 Hz to 20 kHz. Therefore I assumed that frequencies of input signal frequency would be in a range 10Hz-20kHz   
-2. Speaker connected to amplifier:  
-- impedance of the speker: Impedance of the most of loudspeakers is in range from 4 $$\Omega$$ to 12 $$\Omega$$. I assumed that impedance of speaker will be 8 $$\Omega$$. TODO: napisać coś o połączeniach szeregowych.  
-- maximum input power of the speker:  ???
-3. Amplifier:  
-- (voltage/power?) gain - 
-- variability of voltage gain accross signal frequency range - voltage gain should not change much for different frequencies - otherwise sound volume would vary depending on frequency. I did not set precise requirement for maximum change of gain accross frequency range. Instead I decided to visually evaluate diagram (curve?) of amplifier gain in frequency domain. The shape of the curve has to remain flat in the supported frequency range.     
-- phase shift of the response accross signal frequency range
-- shape of output response: THD, saturation etc
-- power/current requirements? 
-- input impedance of the amplifier - check input imedance of existing amplifiers
+I also set requirements for my amplifier:
+- power - main goal of audio amplifiers is to increase power of the audio signal. As mentioned before most loudspeakers can get maximum power of 10-20W. I set a requirement that the amplifier should be able to deliver least 15 W. (is it dependent on the impedance?)
+- voltage gain -  The higher the voltage gain, the higher power of the signal. Therefore I decided that the amplifier should increase voltage level of the signal at least by 4. 
+- variability of voltage gain across signal frequency range - voltage gain should not change much for different frequencies - otherwise sound volume would vary depending on frequency. I did not set precise requirement for maximum change of gain across frequency range. Instead I decided to visually evaluate diagram of amplifier gain in frequency domain. The shape of the curve has to remain flat in the supported frequency range.     
+- phase shift of the response across signal frequency range - variance of phase shift across frequency range could impact the amplifier sound. Therefore I set a loose requirements, that phase shift should remain as constant as possible within frequency range. Additionally phase shift could matter when connecting feedback loop (described later) - for stability purpose the best option seems to be intuitively to have no phase shift. However I decided not to put any strict requirements on the phase shift and to verify system stability by observing its output.
+- shape of output response - amplifier should behave linearly. Input signal within supported range should not cause amplifier saturation.
+- input impedance of the amplifier - input impedance should be relatively high to prevent drawing too high current from the input signal source. I assumed that 1kΩ should be enough, although most of commercial amplifiers has higher input impedance e.g. 10kΩ.
 
 
 ## 2. General idea (todo: rename?)
-Currently used audio amplifiers are divided into a few classes (link). I decided to build an amplifier of class AB, because it is relatively easy to construct as a DIY project and has relatively few disadvantages compared to other classes e.g. class A. My amplifier consists of three main parts (or maybe components?): differential pair, cascode and output part. All of them are widely known building blocks of electronic circuits (todo: refactor), so this article does not describe their operation (if you do not know how they work - google it). Role of each amplifier part is specified in a separate subsection.
-
+Audio amplifiers are divided into a few [classes](https://www.analog.com/en/technical-articles/types-of-audio-amplifiers.html). I decided to build an amplifier of class AB, because it is relatively easy to construct as a DIY project and has relatively few disadvantages compared to other classes e.g. class A. My amplifier consists of three main parts: differential pair, cascode and output part. Differential pair and cascode are widely known building blocks of electronic circuits, so this article does not describe their operation (if you do not know how they work - google it). Role of each amplifier part is specified in a separate subsection. 
 
 ### 2.1 Differential Pair
 Differential pair (also known as long-tailed pair) is the first stage (czy to jest dobrze sformułowane?) of the amplifier.  
@@ -58,10 +54,9 @@ I decided to use a current source at input transistors emmiters to improve CMRR 
 Reference no 1 and 2 in References section are a good source of information about differential pairs.   
 
 TODO: formula for feedback?
-TODO: schema?
 
 ### 2.2 Cascode
-The second stage of the amplifier is cascode. Its function is to amplify voltage signal coming from the previous stage. Cascode provides the largest part of voltage amplification of all stages. I chose cascode as a second stage, because of moderately high input impedance and wide bandwidth. If I needed to increase overall amplifier voltage gain I could use two cascodes connected in series instead of one. Operating points of cascode transistors are set with voltage divider. Signal from cascode is transmitted to Shiklay Pair.
+The second stage of the amplifier is cascode. Its function is to amplify voltage signal coming from the previous stage. Cascode provides the largest part of voltage amplification of all stages. I chose cascode as a second stage, because of moderately high input impedance and wide bandwidth. If I needed to increase overall amplifier voltage gain I could use two cascodes connected in series instead of one. Operating points of cascode transistors are set with voltage divider. Signal from cascode is transmitted to output stage.
 
 
 ### 2.3 Output stage 
@@ -133,8 +128,12 @@ Notes regarding the schema:
 5. Connecting output stage and amplfier output with capacitor - capacitor cuts DC component from signal. Only AC current should be provided to a speaker, DC current could break it (why?).
 
 ### 3.2 Powering module
+I chose -9V and +9V to be supply voltages of the amplifier. I decided to use 230V electrical lines for powering (instead of batteries). To make electrical line supply applicable for my device, the powering needed to be converted from 230V AC to -9/+9V DC. Also powering had to be stable. Any voltage spikes from supply module could possibly break electronic elements.
 
 
+
+## 4. Simulations
+THD
 ## 4. Frequency analysis   
 To check if the amplifier response meets requirements accross amplification frequency range I ran a frequency analysis. I computed gain and phase shift of the amplifier in frequency domain using SPICE program [Description how to click it?]. Subsections below present analysis results for ....   
 Diagrams below present gain and pahe shift for a final version of the amplifier. When I initially created the electronic cricuit the results did not meet requirements and values of some resistors and capacitors needed to be tuned to improve the shape of gain and shift-phase responses.  
