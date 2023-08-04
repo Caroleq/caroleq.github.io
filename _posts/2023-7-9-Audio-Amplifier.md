@@ -27,7 +27,7 @@ Speaker connected to amplifier:
 - maximum input power - most of loudspeakers can get maximum power value of 10-20W. I assumed that speakers connected to my amplifier can get up to 20W. 
 
 I also set requirements for my amplifier:
-- power - main goal of audio amplifiers is to increase power of the audio signal. As mentioned before most loudspeakers can get maximum power of 10-20W. I set a requirement that the amplifier should be able to deliver least 15 W. (is it dependent on the impedance?)
+- power - main goal of audio amplifiers is to increase power of the audio signal. As mentioned before most loudspeakers can get maximum power of 10-20W. I set a requirement that the amplifier should be able to deliver least 15 W to a speaker with input impedance equal to 8Ω.
 - voltage gain -  The higher the voltage gain, the higher power of the signal. Therefore I decided that the amplifier should increase voltage level of the signal at least by 4. 
 - variability of voltage gain across signal frequency range - voltage gain should not change much for different frequencies - otherwise sound volume would vary depending on frequency. I did not set precise requirement for maximum change of gain across frequency range. Instead I decided to visually evaluate diagram of amplifier gain in frequency domain. The shape of the curve has to remain flat in the supported frequency range.     
 - phase shift of the response across signal frequency range - variance of phase shift across frequency range could impact the amplifier sound. Therefore I set a loose requirements, that phase shift should remain as constant as possible within frequency range. Additionally phase shift could matter when connecting feedback loop (described later) - for stability purpose the best option seems to be intuitively to have no phase shift. However I decided not to put any strict requirements on the phase shift and to verify system stability by observing its output.
@@ -35,25 +35,23 @@ I also set requirements for my amplifier:
 - input impedance of the amplifier - input impedance should be relatively high to prevent drawing too high current from the input signal source. I assumed that 1kΩ should be enough, although most of commercial amplifiers has higher input impedance e.g. 10kΩ.
 
 
-## 2. General idea (todo: rename?)
-Audio amplifiers are divided into a few [classes](https://www.analog.com/en/technical-articles/types-of-audio-amplifiers.html). I decided to build an amplifier of class AB, because it is relatively easy to construct as a DIY project and has relatively few disadvantages compared to other classes e.g. class A. My amplifier consists of three main parts: differential pair, cascode and output part. Differential pair and cascode are widely known building blocks of electronic circuits, so this article does not describe their operation (if you do not know how they work - google it). Role of each amplifier part is specified in a separate subsection. 
+## 2. High level overview
+Audio amplifiers are divided into a few [classes](https://www.analog.com/en/technical-articles/types-of-audio-amplifiers.html). I decided to build an amplifier of class AB, because it is relatively easy to construct as a DIY project and has few disadvantages compared to other classes e.g. class A. My amplifier consists of three main parts: differential pair, cascode and output part. Differential pair and cascode are widely known building blocks of electronic circuits, so this article does not describe their operation (if you do not know how they work - google it). Role of each amplifier part is specified in a separate subsection. 
 
 ### 2.1 Differential Pair
 Differential pair (also known as long-tailed pair) is the first stage (czy to jest dobrze sformułowane?) of the amplifier.  
 
 Differential pair performs several functions:  
-- accepts amplfier input - amplifier input is connected to one of differential pair inputs.  
-- amplifies input by a small factor - further stages have grater gain allowing to reach desired amplifiaction.  
+- accepts amplifier input - amplifier input is connected to one of differential pair inputs.  
+- amplifies input by a small factor - further stages have greater gain allowing to reach desired amplification.  
 - accepts feedback from amplifier output - amplifier output is connected (via capacitor and voltage divider) to one of differential pair inputs. Feedback loop improves stability and linearity of the circuit.  
-- ensures sufficiently high input impedance of the amplifier - TODO
+- ensures sufficiently high input impedance of the amplifier - the need to have a high input impedance is described in requirements. I did not derive expression for the input impedance, but the simulation results suggested that it should be sufficient.
 
 Differential pair is connected to the cascode amplifier described in the next subsection. 
 
-I decided to use a current source at input transistors emmiters to improve CMRR (basic version of long-tailed pair has a resistor at input transistors emitters). Also I applied a current-mirror to split current more equally between the two input transistors. The mirror tries to split current equally. TODO.
+I decided to use a current source at input transistors emitters to improve CMRR (basic version of long-tailed pair has a resistor at input transistors emitters). Also I applied a Wilson current-mirror to split current more equally between the two input transistors. 
 
-Reference no 1 and 2 in References section are a good source of information about differential pairs.   
-
-TODO: formula for feedback?
+Reference no 1 in References section is a good source of information about differential pairs.   
 
 ### 2.2 Cascode
 The second stage of the amplifier is cascode. Its function is to amplify voltage signal coming from the previous stage. Cascode provides the largest part of voltage amplification of all stages. I chose cascode as a second stage, because of moderately high input impedance and wide bandwidth. If I needed to increase overall amplifier voltage gain I could use two cascodes connected in series instead of one. Operating points of cascode transistors are set with voltage divider. Signal from cascode is transmitted to output stage.
