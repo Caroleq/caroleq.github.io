@@ -35,7 +35,7 @@ I also set requirements for my amplifier:
 - input impedance of the amplifier - input impedance should be relatively high to prevent drawing too high current from the input signal source. I assumed that 1kΩ should be enough, although most of commercial amplifiers has higher input impedance e.g. 10kΩ.
 
 
-## 2. High level overview
+## 2. High level design idea
 Audio amplifiers are divided into a few [classes](https://www.analog.com/en/technical-articles/types-of-audio-amplifiers.html). I decided to build an amplifier of class AB, because it is relatively easy to construct as a DIY project and has few disadvantages compared to other classes e.g. class A. My amplifier consists of three main parts: differential pair, cascode and output part. Differential pair and cascode are widely known building blocks of electronic circuits, so this article does not describe their operation (if you do not know how they work - google it). Role of each amplifier part is specified in a separate subsection. 
 
 ### 2.1 Differential Pair
@@ -54,29 +54,28 @@ I decided to use a current source at input transistors emitters to improve CMRR 
 Reference no 1 in References section is a good source of information about differential pairs.   
 
 ### 2.2 Cascode
-The second stage of the amplifier is cascode. Its function is to amplify voltage signal coming from the previous stage. Cascode provides the largest part of voltage amplification of all stages. I chose cascode as a second stage, because of moderately high input impedance and wide bandwidth. If I needed to increase overall amplifier voltage gain I could use two cascodes connected in series instead of one. Operating points of cascode transistors are set with voltage divider. Signal from cascode is transmitted to output stage.
+The second stage of the amplifier is cascode. Its function is to amplify voltage signal coming from the previous stage. Cascode provides the largest part of voltage amplification of all stages. I chose it as a second stage, because of moderately high input impedance and a wide bandwidth. If I needed to increase overall amplifier voltage gain I could use two cascodes connected in series instead of one(?). Operating points of cascode transistors are set with voltage divider. Signal from cascode is transmitted to output stage.
 
 
 ### 2.3 Output stage 
 Output stage is the final stage of the amplifier. Its main function is to provide high power to the load (i.e. loud speaker). Voltage amplified signal is taken from the previous stage and passed to the load. Output stage enables load to draw sufficiently high current. Therefore it provides a high power to the load (power is product of voltage and current).
-Apart from supplying sufficient power, the stage has to produce output signal with characteristics class AB amplifier. That is operation of output stage should be more efficient than operation of class A amplifier and crossover distortion should not occur.
-The stage is implemented as a biased push-pull amplifier. Two complementary Sziklai pairs are components of push-pull pair which alternately turn on and off. I chose Sziklai pairs, because they can supply greater current than a single transistor.
-Output of this stage is connected to differential pair forming feedback loop.
+Apart from supplying sufficient power, the stage has to produce output signal with characteristics class AB amplifier. That is, operation of output stage should be more efficient than operation of class A amplifier and crossover distortion should not occur.
+The stage is implemented as a biased push-pull amplifier. Two complementary Sziklai pairs are components of push-pull pair which alternately turn on and off. I chose Sziklai pairs, because they can supply greater current than a single transistor. Output of this stage is connected to amplifier load. Also, output is connected differential pair from the first stage forming feedback loop. 
 
 ### 2.4 Simplified schema of the amplifier
-To better illustrate operaton of the amplifier I added its simplified schema. Many elements which are present in the real amplifier are skipped here, because the goal is to demonstrate general operation of the amplifier. Diagram is split by vertical lines into three parts, one for each stage. 
+To illustrate operation of the amplifier I added its simplified schema. Many elements which are present in the real amplifier are skipped here, because the goal is to demonstrate general operation of the amplifier. Diagram is split by vertical lines into three parts, one for each stage. 
 
 ![_config.yml]({{ site.baseurl }}/images/audio-amplifier/amplifier-simplified.png)
 
 Role of some of the electronic elements from the schema is listed below: 
 1. Differential stage:
-- transistor Q1 - takes amplifer input signal 
+- transistor Q1 - takes amplifier input signal 
 - transistor Q2 - takes feedback loop signal 
-- transistors Q3, Q4, Q5 - form Wilson(?) current mirror
+- transistors Q3, Q4, Q5 - form Wilson current mirror
 2. Cascode:
 - resistors R1, R2, R3 - set operating point of cascode transistors
-- transistor Q7 - forms common emitter part of cascode
-- transistor Q6 - forms common base part of cascode
+- transistor Q7 - constitutes common emitter part of cascode
+- transistor Q6 - constitutes common base part of cascode
 3. Output stage:
 - diodes D1, D2 - add biasing of push-pull pair
 - transistors Q8, Q10 - Sziklai pair in NPN configuration 
