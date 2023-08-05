@@ -82,34 +82,33 @@ Role of some of the electronic elements from the schema is listed below:
 - transistors Q9, Q11 - Sziklai pair in PNP configuration 
 
 ## 3. Electronic design
-Electronic design of the amplifier is split into two modules: first module contains a circuit introduced in previous section for amplifying a signal, the second module serves as a reliable (and stable?) power supply. Each module has its own electronic board. Circuits were modeled using KiCad software. Beforehand mentioned modules are described in the following subsections. 
+Electronic design of the amplifier is split into two modules: first module contains a circuit introduced in previous section for amplifying a signal, the second module serves as a power supply. Each module has its own electronic board. Circuits were modeled using KiCad software. 
 
 ### 3.1 Details of main amplifier module
-This section provides complete electronic design of the amplifier. General idea of amplifier operation and its schema is discussed in the previous chapter, so here I just describe details of the electronic design, which were not provided so far (like usage of additional elements, choosing elements values, expected current and voltage levels etc.). 
+This section provides complete electronic design of the amplifier. General idea of amplifier operation and its schema was discussed in the previous chapter, so here I just describe details of the electronic design, which were not provided so far (like usage of additional elements, choosing elements values etc.). 
 
 #### 3.1.1 Differential Pair
 Screen of the KiCad model of the subcircuit is provided below. 
 
+TODO: add after running in case sth changed.
 
 Notes regarding the schema: 
-1. Current source. I implemented current source as a transistor biased with two resistors. Additionally there is potentiometer, which can be used to regulate current value a little bit. When potentiometer's resistance is split equally on both sides, the current source should be able to produce TODO mA.
-2. Resistor R5 - sets operating point of transistor Q1. Current flowing through Q1 is controlled by the current source. For the current to flow through Q1's collector, Q1's base also needs to draw current from somewhere. Current cannot be drawn from input since its direct current component is cut off by C1 capacitor. Therefore a resistor connected to ground is added to Q1's base to enable current flow through the base. A side effect of adding the resistor is a limitation of an input impedance of the amplifier. Too law input impedance could possibly destroy computer network card. Computing the voltage/current ratio of input signal showed that input impedance is around 1k$$\Omega$$, which hopefully would be sufficiently high.
-3. Resistors R9 and R10
+1. Current source (transistor Q5, resistors R1, R3, potentiometer RV2) - I implemented current source as a transistor biased with two resistors. Additionally there is potentiometer, which can be used to regulate current value. 
+2. Operating point of transistor Q1 - it is set with resistor R5. Current flowing through Q1 is controlled by the current source. For the current to flow through Q1's collector, Q1's base also needs to draw current from somewhere. Current cannot be drawn from input since its direct current component is cut off by C1 capacitor. Therefore a resistor connected to ground is added to Q1's base to enable current flow through the base. A side effect of adding the resistor is a limitation of an input impedance of the amplifier. Too law input impedance could possibly destroy computer network card. Computing the voltage/current ratio of input signal showed that input impedance is around 1kΩ, which hopefully would be sufficiently high.
+3. Resistors R9 and R10 - these resistors (also called emitter degeneration resistors) constraint differential pair transconductance - differential pair is relatively easy to saturate, so its gain should be kept low. Normally R9 and R10 should have equal values. For some reason unknown assigning different values to them finally gave signal amplification on simulation greater than 1 (equal values of R9 and R10 always caused input signal suppression). Different values of emitter degeneration resistors will introduce imbalance to current flowing through Q1, Q8, which contradicts the purpose of Wilson current mirror. However overall circuit produced satisfactory results, so I decided to leave it as it is. Role of emitter degeneration resistors is described in [4].
 4. Input capacitor C1 - cuts off direct current component of the input signal.
-5. Voltage divider of feedback loop - direct connecting feedback signal to amplifier did not give good simulation results. I had to calibrate the weight of feedback loop signal by multiplying it by gain (less than 1) of voltage divider. It was hard to find resistor values which would give satisfactory amplifier behaviour on the simulation. Changing resistor values of the divider by 1 $$\Omega$$ could drastically change the shape of amplifier response (1 $$\Omega$$ is often more than tolarance of a resistor). A possible explanation is that there were some errors in KiCad calculations of the response. Finally I managed to find resistor values which gave expected gain and response shape. However there was no guarantee that the real amplifier will behave exactly the same as the simulation. Therefore I added two potentiometers to enable tuning of feedback signal weight.
+5. Voltage divider of feedback loop - direct connecting feedback signal to amplifier did not give good simulation results. I had to calibrate the weight of feedback loop signal by multiplying it by gain (smaller than 1) of voltage divider. It was hard to find resistor values which would give satisfactory amplifier behavior on the simulation. Changing resistor values of the divider by 1Ω could drastically change the shape of amplifier response (1Ω is often more than tolerance of a resistor!). A possible explanation is that there were some errors in KiCad calculations of the response. Finally I managed to find resistor values which gave expected gain and a response shape. However there was no guarantee that the real amplifier will behave exactly the same as the simulation. Therefore I added two potentiometers to enable tuning of feedback signal weight.
 
-Final simulation results: 
-Amplifier input was a sine wave of +0.
-
-TODO: describe result of analysis. 
 
 #### 3.1.2 Cascode
 Screen of the KiCad model of the subcircuit is provided below. 
 
+TODO: add after running in case sth changed.
+
 Notes regarding the schema: 
 1. Potentiometer RV3 - voltage amplification of cascode during simulation was satisfactory, but I decided to add possibility to change operating point of cascode transistors in case physical model differs from simulation.
 2. Connecting output of differential pair and cascode through capacitor C4 - capacitor cuts DC component from signal so it does not impact cascode operating point. 
-3. Capacitor C3 - lowers value of Q16 emitter resistance without an influence on operating point of transistors. Resistor R27 impacts the operating point of the cascode. For DC current capacitor is a break in the circuit, so C3 does not influence  the operating point of the cascode's transistors. For amplified AC signal, C3 is an element with finite impedance. Therefore C3 connected parallelly with R27 lowers Q16 emitter resistance for amplified AC signal, which increases cascode gain.  
+3. Capacitor C3 - lowers value of Q16 emitter resistance without an influence on operating point of transistors. Resistor R27 impacts the operating point of the cascode. For DC current capacitor is a break in the circuit, so C3 does not influence  the operating point of the cascode's transistors. For amplified AC signal, C3 is an element with finite impedance. Therefore C3 connected in parallel with R27 lowers Q16 emitter resistance for amplified AC signal, which increases cascode gain.  
 4. Input impedance of cascode - Differential pair has high output impedance, so impedance of C4 (together with whole cascode ?) should not be also be too low, because it would disturb operation of differential pair.
 5. 
 
@@ -120,9 +119,9 @@ Screen of the KiCad model of the subcircuit is provided below.
 Notes regarding the schema: 
 1. Connecting output stage and output from cascode with capacitor - capacitor cuts DC component from signal so it does not impact output stage operating point. 
 2. Using transistors as diodes (Q10, Q11) - instead of conventional diodes two transistors with bases connected to collectors are used. For some reason implementing diodes with transistors from Sziklai pairs (the same transistor model) gave far better results on simulation than ordinary diodes. I suppose this is because characteristics of such implemented diodes are similar to characteristics of the first transistors of Sziklai pairs (Q9 and Q12).
-3. resistors R21 and R19 - these resistors prevent leakage current and improve turn-off speed of Sziklai pairs. It is described in more datail in [3].
-4. resistors R4 and R18
-5. Connecting output stage and amplfier output with capacitor - capacitor cuts DC component from signal. Only AC current should be provided to a speaker, DC current could break it (why?).
+3. resistors R21 and R19 - these resistors prevent leakage current and improve turn-off speed of Sziklai pairs. It is described in more detail in [3].
+4. resistors R4 and R18 - 
+5. Connecting output stage and amplifier output with capacitor - capacitor cuts DC component from signal. Only AC current should be provided to a speaker, DC current could break it (why?).
 
 ### 3.2 Powering module
 I chose -9V and +9V to be supply voltages of the amplifier. I decided to use 230V electrical lines for powering (instead of batteries). To make electrical line supply applicable for my device, the powering needed to be converted from 230V AC to -9/+9V DC. Also powering had to be stable. Any voltage spikes from supply module could possibly break electronic elements.
@@ -130,16 +129,21 @@ I chose -9V and +9V to be supply voltages of the amplifier. I decided to use 230
 
 
 ## 4. Simulations
+## 4.1 Response to signal of frequency 1kHz and amplitude 1V peak-to-peak 
+
+
+## 4.2 Total harmonic distortion check
+
 THD
-## 4. Frequency analysis   
+## 4.3 Frequency analysis   
 To check if the amplifier response meets requirements accross amplification frequency range I ran a frequency analysis. I computed gain and phase shift of the amplifier in frequency domain using SPICE program [Description how to click it?]. Subsections below present analysis results for ....   
 Diagrams below present gain and pahe shift for a final version of the amplifier. When I initially created the electronic cricuit the results did not meet requirements and values of some resistors and capacitors needed to be tuned to improve the shape of gain and shift-phase responses.  
-### 4.1 Analysis of amplitude gain
+### 4.3.1 Analysis of amplitude gain
 As mentioned in the requirements section, changes of gain values in frequency range 10Hz-20kHz should be small. [Zapas??]  
 TODO: Opisać wykres  
 When I first run the analysis for the circuit gain value was not constant/stable? accross considered frequency range. At the same time value of the gain had to remain acceptably high. Also I had to pay attention to the shape of the amplifier response (any non-linearities are unacceptable). 
 With this in mind I changed values of resistors and capacitors in a few places in the whole project to flatten magnitude/gain response. 
-### 4.2 Analysis of phase shift
+### 4.3.2 Analysis of phase shift
 The phase shift along the change of frequencies should remain as small as possible? Why? Instability? Sound?  
 
 ## 5. Physical construction
@@ -164,3 +168,7 @@ TODO: opisać co było w THT, a co w PCB i dlaczego.
 1. Paul Horwitz, Winfield Hill, The Art of Electronics, 3rd edition (Cambridge University Press, 2015). Section 2.3.8: Differential amplifiers  
 2. Douglas Self, Audio Power Amplifier Design Handbook, 4th edition (Focal Press, 2006). Section: TODO
 3. Paul Horwitz, Winfield Hill, The Art of Electronics, 3rd edition (Cambridge University Press, 2015). Section 2.4.2 Darlington connection  
+4. Emitter degeneration resistors
+
+
+Improving input-stage linearity
