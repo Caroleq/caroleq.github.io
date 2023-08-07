@@ -115,6 +115,7 @@ Notes regarding the schema:
 #### 3.1.3 Output stage
 Screen of the KiCad model of the subcircuit is provided below. 
 
+TODO: add after running in case sth changed.
 
 Notes regarding the schema: 
 1. Connecting output stage and output from cascode with capacitor - capacitor cuts DC component from signal so it does not impact output stage operating point. 
@@ -129,12 +130,14 @@ I chose -9V and +9V to be supply voltages of the amplifier. I decided to use 230
 
 
 ## 4. Simulations
-## 4.1 Response to signal of frequency 1kHz and amplitude 1V peak-to-peak 
+To analyze operation of the amplifier model I run a few types of simulations. Simulations allow to roughly estimate what can be expected from the real amplifier - physical device always differs to some degree from software model. Before building the real amplifier I ensured that simulation results meet expectations. Following subsections describe the simulation I run along with obtained results.
+
+## 4.1 Response to a signal of frequency 1kHz and amplitude 0.5V - 1V peak-to-peak 
 
 
 ## 4.2 Total harmonic distortion check
 
-THD
+
 ## 4.3 Frequency analysis   
 To check if the amplifier response meets requirements accross amplification frequency range I ran a frequency analysis. I computed gain and phase shift of the amplifier in frequency domain using SPICE program [Description how to click it?]. Subsections below present analysis results for ....   
 Diagrams below present gain and pahe shift for a final version of the amplifier. When I initially created the electronic cricuit the results did not meet requirements and values of some resistors and capacitors needed to be tuned to improve the shape of gain and shift-phase responses.  
@@ -148,18 +151,13 @@ The phase shift along the change of frequencies should remain as small as possib
 
 ## 5. Physical construction
 The most important decisions regarding physical construction of the amplifier were:
-1. How (if at all) to split different amplifier components into multiple stages. 
-2. The way of mounting electronic elements on the board (PCB or THT). 
-Main amplifier board: maximum current that is supposed to flow through the first two amplifier stages is not expected to exceed X mA. Therefore I decided to use PCB mounting for their elements. The output stage is intended to pass a relatively big current (up to Y mA). PCB elements which are 
+1. How (if at all) to split different amplifier components into multiple boards. 
+2. The way of mounting electronic elements on the board (SMD or THT). 
+I split the main amplifier module and the powering module to separate boards. 
+I made a PCB for the main amplifier part. To design the PCB I used PCB Editor from KiCad. Maximum current that is supposed to flow through the first two amplifier stages is not expected to exceed a few mA. Therefore I could use SMD mounting for their elements. SMD allows to limit surface needed for elements compared to THT and avoids drilling the board as in case of THT. The output stage is intended to pass a relatively big current (up to around 1A). SMD elements could get burned in such a current, so THT mounting needed to be used. SMD elements were located on one side of PCB board, THT elements on the other. More details about the BCB can be found in KiCad project attachment. Output stage transistors are attached to radiators for heat dissipation (radiators are not present in KiCad model). Resistors R4 and R18 are cement power resistors able to conduct current of the order of 1A.
 Powering board: 
 
 
-
-
-todo: opisać typy obudowy
-TODO: opisać co było w THT, a co w PCB i dlaczego.
-1. Transistor models. I used transistors BC817 and BC807, because ... . 
-### 5.1 PCB design 
 
 ## 6. Starting-up the amplifier
 
