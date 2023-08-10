@@ -97,7 +97,7 @@ Notes regarding the schema:
 2. Operating point of transistor Q1 - it is set with resistor R5. Current flowing through Q1 is controlled by the current source. For the current to flow through Q1's collector, Q1's base also needs to draw current from somewhere. Current cannot be drawn from input since its direct current component is cut off by C1 capacitor. Therefore a resistor connected to ground is added to Q1's base to enable current flow through the base. A side effect of adding the resistor is a limitation of an input impedance of the amplifier. Too law input impedance could possibly destroy computer network card. Computing the voltage/current ratio of input signal showed that input impedance is around 1kΩ, which hopefully would be sufficiently high.
 3. Resistors R9 and R10 - these resistors (also called emitter degeneration resistors) constraint differential pair transconductance - differential pair is relatively easy to saturate, so its gain should be kept low. Normally R9 and R10 should have equal values. For some reason unknown assigning different values to them finally gave signal amplification on simulation greater than 1 (equal values of R9 and R10 always caused input signal suppression). Different values of emitter degeneration resistors will introduce imbalance to current flowing through Q1, Q8, which contradicts the purpose of Wilson current mirror. However overall circuit produced satisfactory results, so I decided to leave it as it is. Role of emitter degeneration resistors is described in [4].
 4. Input capacitor C1 - cuts off direct current component of the input signal.
-5. Voltage divider of feedback loop - direct connecting feedback signal to amplifier did not give good simulation results. I had to calibrate the weight of feedback loop signal by multiplying it by gain (smaller than 1) of voltage divider. It was hard to find resistor values which would give satisfactory amplifier behavior on the simulation. Changing resistor values of the divider by 1Ω could drastically change the shape of amplifier response (1Ω is often more than tolerance of a resistor!). A possible explanation is that there were some errors in KiCad calculations of the response. Finally I managed to find resistor values which gave expected gain and a response shape. However there was no guarantee that the real amplifier will behave exactly the same as the simulation. Therefore I added two potentiometers to enable tuning of feedback signal weight.
+5. Voltage divider of feedback loop - direct connecting feedback signal to amplifier did not give good simulation results. I had to calibrate the weight of feedback loop signal by multiplying it by gain (smaller than 1) of voltage divider. It was hard to find resistor values which would give satisfactory amplifier behavior on the simulation, because small changes in resistor values had a big impact on overall response. Finally I managed to find resistor values which gave expected gain and a response shape. However there was no guarantee that the real amplifier will behave exactly the same as the simulation. Therefore I added two potentiometers to enable tuning of feedback signal weight.
 
 
 #### 3.1.2 Cascode
@@ -127,13 +127,27 @@ Notes regarding the schema:
 ### 3.2 Powering module
 I chose -9V and +9V to be supply voltages of the amplifier. I decided to use 230V electrical lines for powering (instead of batteries). To make electrical line supply applicable for my device, the powering needed to be converted from 230V AC to -9/+9V DC. Also powering had to be stable. Any voltage spikes from supply module could possibly break electronic elements.
 
-
-
 ## 4. Simulations
 To analyze operation of the amplifier model I run a few types of simulations. Simulations allow to roughly estimate what can be expected from the real amplifier - physical device always differs to some degree from software model. Before building the real amplifier I ensured that simulation results meet expectations. Following subsections describe the simulation I run along with obtained results.
 
 ## 4.1 Response to a signal of frequency 1kHz and amplitude 0.5V - 1V peak-to-peak 
+While creating the circuit model I checked its response using SPICE simulation paying attention to gain and shape of the output signal. The default input signal I used during most of simulations was a sine wave with frequency equal to 1kHz and amplitude equal to 0.5V. Additionally I run a few tests for input sine waves with different amplitudes and frequencies to ensure correct behavior for variable signals.
 
+During designing I first simulated behavior of every stage separately and tuned electronic element values to improve output of stages. Next I connected subcircuits into a complete model and checked its behavior. Again, I had to change values of some electronic parts to improve the response gain and its shape.
+
+It was especially difficult to tune resistor values on the feedback loop divider. Changing resistor values of the divider by 1Ω could drastically change the shape of amplifier response (1Ω is often more than tolerance of a resistor!). Also KiCad could give different simulation results after restarting it. A possible explanation is that there were some errors in KiCad calculations of the response. After some struggle I managed to obtain a satisfactory response.
+
+Following are the voltage gain results provided as amplification factors I got from the final simulation:
+Differential stage: X (amplified was the difference between the input and the feedback loop)
+Cascode: X 
+Output stage: X
+Whole amplifier:  X 
+
+Load connected to output stage drew Y mA. So the power delivered to the load on the simulation was X x Y = Z W.
+
+Below diagram is a screen from SPICE simulation with amplifier output for a sine wave input of frequency 1kHz and 1V peak-to-peak:
+
+kicad ->spice
 
 ## 4.2 Total harmonic distortion check
 
@@ -160,6 +174,11 @@ Powering board:
 
 
 ## 6. Starting-up the amplifier
+
+
+
+
+### 6.2 Pitfalls
 
 
 ## 7. References
