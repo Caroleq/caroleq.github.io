@@ -110,7 +110,6 @@ Notes regarding the schema:
 2. Connecting output of differential pair and cascode through capacitor C4 - capacitor cuts DC component from signal so it does not impact cascode operating point. 
 3. Capacitor C3 - lowers value of Q16 emitter resistance without an influence on operating point of transistors. Resistor R27 impacts the operating point of the cascode. For DC current capacitor is a break in the circuit, so C3 does not influence  the operating point of the cascode's transistors. For amplified AC signal, C3 is an element with finite impedance. Therefore C3 connected in parallel with R27 lowers Q16 emitter resistance for amplified AC signal, which increases cascode gain.  
 4. Input impedance of cascode - Differential pair has high output impedance, so impedance of C4 (together with whole cascode ?) should not be also be too low, because it would disturb operation of differential pair.
-5. 
 
 #### 3.1.3 Output stage
 Screen of the KiCad model of the subcircuit is provided below. 
@@ -128,29 +127,42 @@ Notes regarding the schema:
 I chose -9V and +9V to be supply voltages of the amplifier. I decided to use 230V electrical lines for powering (instead of batteries). To make electrical line supply applicable for my device, the powering needed to be converted from 230V AC to -9/+9V DC. Also powering had to be stable. Any voltage spikes from supply module could possibly break electronic elements.
 
 ## 4. Simulations
-To analyze operation of the amplifier model I run a few types of simulations. Simulations allow to roughly estimate what can be expected from the real amplifier - physical device always differs to some degree from software model. Before building the real amplifier I ensured that simulation results meet expectations. Following subsections describe the simulation I run along with obtained results.
+To analyze operation of the amplifier model I run a few types of simulations. Simulations allow to roughly estimate what can be expected from the real amplifier - physical device always differs to some degree from software model. Before building the real amplifier I ensured that simulation results meet expectations. I did not simulate the powering module. Following subsections describe the simulations I run for amplifier along with obtained results.
+
 
 ## 4.1 Response to a signal of frequency 1kHz and amplitude 0.5V - 1V peak-to-peak 
-While creating the circuit model I checked its response using SPICE simulation paying attention to gain and shape of the output signal. The default input signal I used during most of simulations was a sine wave with frequency equal to 1kHz and amplitude equal to 0.5V. Additionally I run a few tests for input sine waves with different amplitudes and frequencies to ensure correct behavior for variable signals.
+While creating the circuit model I checked its response using SPICE simulation paying attention to gain and shape of the output signal. The default input signal I used during most simulations was a sine wave with frequency equal to 1kHz and amplitude equal to 0.5V. Additionally I run a few tests for input sine waves with different amplitudes and frequencies to ensure correct behavior for variable signals.
 
-During designing I first simulated behavior of every stage separately and tuned electronic element values to improve output of stages. Next I connected subcircuits into a complete model and checked its behavior. Again, I had to change values of some electronic parts to improve the response gain and its shape.
+During designing I first simulated behavior of every stage separately and tuned electronic element values to improve output of stages. Next I connected subcircuits into a complete model and checked its behavior. Again, I had to change values of some electronic element values to improve the response gain and its shape.
 
-It was especially difficult to tune resistor values on the feedback loop divider. Changing resistor values of the divider by 1Ω could drastically change the shape of amplifier response (1Ω is often more than tolerance of a resistor!). Also KiCad could give different simulation results after restarting it. A possible explanation is that there were some errors in KiCad calculations of the response. After some struggle I managed to obtain a satisfactory response.
+It was especially difficult to tune resistor values on the feedback loop divider. Changing resistor values of the divider by 1Ω could drastically change the shape of amplifier response (1Ω is often more than tolerance of a resistor!). Also KiCad could give different simulation results after running it two times without changing any params. A possible explanation is that there were some errors in KiCad calculations of the response. After some struggle I managed to obtain a satisfactory response.
 
-Following are the voltage gain results provided as amplification factors I got from the final simulation:
-Differential stage: X (amplified was the difference between the input and the feedback loop)
-Cascode: X 
-Output stage: X
-Whole amplifier:  X 
+Following are the voltage gain results provided as amplification factors I got from the final simulation (sine wave, freq=1kHz, amplitude=0.5V):
+Differential stage: 
+Amplification gain was around 0.5. Amplified was the difference between the input and the feedback loop. This is much smaller than initial requirement gain, but was compensated by the later stage. Maximum difference between input and feedback loop was around 40mV and peak-to-peak output signal was around 20mV.
+Cascode: 
+Amplification gain was around 250. Input signal peak-to-peak value was around 20mV and output signal peak-to-peak value was around 5V.
+Output stage: 
+Amplification gain was around 0.866. Input signal peak-to-peak value was around 5V and output signal peak-to-peak value was around 4.33V.
+Whole amplifier: 
+Amplification gain was around 4.33. Input signal peak-to-peak value was 1V and output signal peak-to-peak value was around 4.33V, so the root mean square equalled 3.06V.
 
-Load connected to output stage drew Y mA. So the power delivered to the load on the simulation was X x Y = Z W.
+Load connected to output stage drew 587mA peak-to-peak (root mean square 415mA) . So the power delivered to the load on the simulation computed by multiplying voltage and current root mean squares was 3.06V x 415mA = 1.27W. This was much less then what was in requirements (15W). 1.27W would probably not produce a satisfactory loudness of the speaker. Nonetheless I decided to accept this result, after I was not able to obtain better results within some time. 
 
-Below diagram is a screen from SPICE simulation with amplifier output for a sine wave input of frequency 1kHz and 1V peak-to-peak:
+Below diagram is a screen from SPICE simulation with amplifier output for a sine wave input of frequency 1kHz and 1V peak-to-peak. Time of the simulation was 1ms and step time was 1us.  
 
-kicad ->spice
+
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/amplifier-simulation-2.png)   
+
+
+Red line is the voltage value input signal.  
+Blue line is the voltage value output signal.  
+Green line is the current value output signal.  
 
 ## 4.2 Total harmonic distortion check
+I analyzed the THD to get information about harmonic distortions of the amplifier. SPICE and KiCad do not offer functionalities to compute THD, so I decided to use MATLAB for that. I exported amplifier output generated in SPICE simulation (for sine wave input signal with frequency=1kHz and amplitude=1V). In MATLAB I wrote a script (todo: link) reading SPICE data, computing FFT of the signal and drawing them on a plot. From this plot I read the first X harmonics and calculated THD to be around Y. This is a relatively high value, but I decided to accept it.
 
+Below diagram shows FFT of the amplifier output:
 
 ## 4.3 Frequency analysis   
 To check if the amplifier response meets requirements accross amplification frequency range I ran a frequency analysis. I computed gain and phase shift of the amplifier in frequency domain using SPICE program [Description how to click it?]. Subsections below present analysis results for ....   
