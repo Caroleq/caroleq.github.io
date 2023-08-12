@@ -1,6 +1,6 @@
 ---
 layout: post
-title: DIY Audio Amplifier Project
+title: DIY Audio Amplifier Project Part I
 date: 2023-07-23 00:00:00 +0000
 tags:
   audio-amplifier
@@ -8,7 +8,7 @@ tags:
 ---
 
 
-This post contains a description of an audio amplifier I built as a DIY project for the purpose of learning electronics. The post discusses design of electronic circuit of the amplifier. It also discusses simulations and analyses that were run on the KiCad amplifier model to check if the amplifier operation meets expectations (simulation behavior can differ from physical device behavior, so desired results of simulation do not guarantee desired operation of real amplifier). KiCad project with electronic circuit schematic and PCB design is attached here(todo). Finally the post describes physical construction of the device and attempts to start the built amplifier. While designing the amplifier I used Audio Power Amplifier Design Handbook as a reference. Most of the ideas used to create the project is taken from this book, although my amplifier is not a direct copy of any amplifier presented there.
+This post contains a description of an audio amplifier I built as a DIY project for the purpose of learning electronics. The post discusses design of electronic circuit of the amplifier. It also discusses simulations and analyses that were run on the KiCad amplifier model to check if the amplifier operation meets expectations (simulation behavior can differ from physical device behavior, so desired results of simulation do not guarantee desired operation of real amplifier). KiCad project with electronic circuit schematic and PCB design is attached here(todo). While designing the amplifier I used Audio Power Amplifier Design Handbook as a reference. Most of the ideas used to create the project is taken from this book, although my amplifier is not a direct copy of any amplifier presented there.
 
 Prerequisites: The article does not explain basic concepts of electronics, electronic elements and building blocks of electronic circuits that are widely known and their descriptions can be easily found on the Internet. 
 
@@ -120,8 +120,7 @@ Notes regarding the schema:
 1. Connecting output stage and output from cascode with capacitor - capacitor cuts DC component from signal so it does not impact output stage operating point. 
 2. Using transistors as diodes (Q10, Q11) - instead of conventional diodes two transistors with bases connected to collectors are used. For some reason implementing diodes with transistors from Sziklai pairs (the same transistor model) gave far better results on simulation than ordinary diodes. I suppose this is because characteristics of such implemented diodes are similar to characteristics of the first transistors of Sziklai pairs (Q9 and Q12).
 3. resistors R21 and R19 - these resistors prevent leakage current and improve turn-off speed of Sziklai pairs. It is described in more detail in [3].
-4. resistors R4 and R18 - 
-5. Connecting output stage and amplifier output with capacitor - capacitor cuts DC component from signal. Only AC current should be provided to a speaker, DC current could break it (why?).
+4. Connecting output stage and amplifier output with capacitor - capacitor cuts DC component from signal. Only AC current should be provided to a speaker, DC current could break it (why?).
 
 ### 3.2 Powering module
 I chose -9V and +9V to be supply voltages of the amplifier. I decided to use 230V electrical lines for powering (instead of batteries). To make electrical line supply applicable for my device, the powering needed to be converted from 230V AC to -9/+9V DC. Also powering had to be stable. Any voltage spikes from supply module could possibly break electronic elements.
@@ -165,33 +164,16 @@ I analyzed the THD to get information about harmonic distortions of the amplifie
 Below diagram shows FFT of the amplifier output:
 
 ## 4.3 Frequency analysis   
-To check if the amplifier response meets requirements accross amplification frequency range I ran a frequency analysis. I computed gain and phase shift of the amplifier in frequency domain using SPICE program [Description how to click it?]. Subsections below present analysis results for ....   
-Diagrams below present gain and pahe shift for a final version of the amplifier. When I initially created the electronic cricuit the results did not meet requirements and values of some resistors and capacitors needed to be tuned to improve the shape of gain and shift-phase responses.  
-### 4.3.1 Analysis of amplitude gain
-As mentioned in the requirements section, changes of gain values in frequency range 10Hz-20kHz should be small. [Zapas??]  
-TODO: Opisać wykres  
-When I first run the analysis for the circuit gain value was not constant/stable? accross considered frequency range. At the same time value of the gain had to remain acceptably high. Also I had to pay attention to the shape of the amplifier response (any non-linearities are unacceptable). 
-With this in mind I changed values of resistors and capacitors in a few places in the whole project to flatten magnitude/gain response. 
-### 4.3.2 Analysis of phase shift
-The phase shift along the change of frequencies should remain as small as possible? Why? Instability? Sound?  
+To check amplifier response within supported input signal frequency range I ran a frequency analysis. I computed voltage gain and phase shift of the amplifier output signal for sine waves with amplitude equal to 0.5V and frequency ranging from 5Hz to 200kHz (more than supported frequency range to add some reserve). Both gain and phase shift have change significant at the low frequencies. Gain changes by a factor of around 1.48 between 10 Hz and 30 Hz. Phase shift change around 73 degrees between 10 Hz and 100 Hz. However apart from these low frequencies gain and a phase shift were relatively constant. These results were satisfactory for me.
 
-## 5. Physical construction
-The most important decisions regarding physical construction of the amplifier were:
-1. How (if at all) to split different amplifier components into multiple boards. 
-2. The way of mounting electronic elements on the board (SMD or THT). 
-I split the main amplifier module and the powering module to separate boards. 
-I made a PCB for the main amplifier part. To design the PCB I used PCB Editor from KiCad. Maximum current that is supposed to flow through the first two amplifier stages is not expected to exceed a few mA. Therefore I could use SMD mounting for their elements. SMD allows to limit surface needed for elements compared to THT and avoids drilling the board as in case of THT. The output stage is intended to pass a relatively big current (up to around 1A). SMD elements could get burned in such a current, so THT mounting needed to be used. SMD elements were located on one side of PCB board, THT elements on the other. More details about the BCB can be found in KiCad project attachment. Output stage transistors are attached to radiators for heat dissipation (radiators are not present in KiCad model). Resistors R4 and R18 are cement power resistors able to conduct current of the order of 1A.
-Powering board: 
+Diagram below presents results of the frequency analysis:   
 
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/freq-2.png) 
 
-
-## 6. Starting-up the amplifier
-
-
-
-
-### 6.2 Pitfalls
-
+Red line is the voltage value of output signal.  
+Blue line is the voltage phase shift of output signal.  
+Green line is the voltage value of input signal.  
+Purple line is the voltage phase shift of input signal. 
 
 ## 7. References
 1. Paul Horwitz, Winfield Hill, The Art of Electronics, 3rd edition (Cambridge University Press, 2015). Section 2.3.8: Differential amplifiers  
@@ -199,5 +181,6 @@ Powering board:
 3. Paul Horwitz, Winfield Hill, The Art of Electronics, 3rd edition (Cambridge University Press, 2015). Section 2.4.2 Darlington connection  
 4. Emitter degeneration resistors
 
+2. Douglas Self, Audio Power Amplifier Design Handbook, 4th edition (Focal Press, 2006). Chapter 4, Subchapter: Improving input-stage linearity
 
-Improving input-stage linearity
+
