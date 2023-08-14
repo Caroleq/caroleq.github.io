@@ -8,7 +8,8 @@ tags:
 ---
 
 
-This post contains a description of an audio amplifier I built as a DIY project for the purpose of learning electronics. The post discusses design of electronic circuit of the amplifier. It also discusses simulations and analyses that were run on the KiCad amplifier model to check if the amplifier operation meets expectations (simulation behavior can differ from physical device behavior, so desired results of simulation do not guarantee desired operation of real amplifier). KiCad project with electronic circuit schematic and PCB design is attached here(todo). While designing the amplifier I used Audio Power Amplifier Design Handbook as a reference. Most of the ideas used to create the project is taken from this book, although my amplifier is not a direct copy of any amplifier presented there.
+This post is the first of a two-part series of articles about an audio amplifier I built as a DIY project for the purpose of learning electronics. The post discusses design of electronic circuit of the amplifier. It also discusses simulations and analyses that were run on the KiCad amplifier model to check if the amplifier operation meets expectations. While designing the amplifier I used Audio Power Amplifier Design Handbook as a reference. Most of the ideas used to create the project is taken from this book, although my amplifier is not a direct copy of any amplifier presented there.
+In the second article I plan to describe the physical construction of the amplifier, process of starting it and its performance. 
 
 Prerequisites: The article does not explain basic concepts of electronics, electronic elements and building blocks of electronic circuits that are widely known and their descriptions can be easily found on the Internet. 
 
@@ -39,7 +40,7 @@ I also set requirements for my amplifier:
 Audio amplifiers are divided into a few [classes](https://www.analog.com/en/technical-articles/types-of-audio-amplifiers.html). I decided to build an amplifier of class AB, because it is relatively easy to construct as a DIY project and has few disadvantages compared to other classes e.g. class A. My amplifier consists of three main parts: differential pair, cascode and output part. Differential pair and cascode are widely known building blocks of electronic circuits, so this article does not describe their operation (if you do not know how they work - google it). Role of each amplifier part is specified in a separate subsection. 
 
 ### 2.1 Differential Pair
-Differential pair (also known as long-tailed pair) is the first stage (czy to jest dobrze sformułowane?) of the amplifier.  
+Differential pair (also known as long-tailed pair) is the first stage of the amplifier.  
 
 Differential pair performs several functions:  
 - accepts amplifier input - amplifier input is connected to one of differential pair inputs.  
@@ -54,7 +55,7 @@ I decided to use a current source at input transistors emitters to improve CMRR 
 Reference no 1 in References section is a good source of information about differential pairs.   
 
 ### 2.2 Cascode
-The second stage of the amplifier is cascode. Its function is to amplify voltage signal coming from the previous stage. Cascode provides the largest part of voltage amplification of all stages. I chose it as a second stage, because of moderately high input impedance and a wide bandwidth. If I needed to increase overall amplifier voltage gain I could use two cascodes connected in series instead of one(?). Operating points of cascode transistors are set with voltage divider. Signal from cascode is transmitted to output stage.
+The second stage of the amplifier is cascode. Its function is to amplify voltage signal coming from the previous stage. Cascode provides the largest part of voltage amplification of all stages. I chose it as a second stage, because of moderately high input impedance and a wide bandwidth. If I needed to increase overall amplifier voltage gain I could use two cascodes connected in series instead of one. Operating points of cascode transistors are set with voltage divider. Signal from cascode is transmitted to output stage.
 
 
 ### 2.3 Output stage 
@@ -85,17 +86,17 @@ Role of some of the electronic elements from the schema is listed below:
 Electronic design of the amplifier is split into two modules: first module contains a circuit introduced in previous section for amplifying a signal, the second module serves as a power supply. Each module has its own electronic board. Circuits were modeled using KiCad software. 
 
 ### 3.1 Details of main amplifier module
-This section provides complete electronic design of the amplifier. General idea of amplifier operation and its schema was discussed in the previous chapter, so here I just describe details of the electronic design, which were not provided so far (like usage of additional elements, choosing elements values etc.). 
+This section provides complete electronic design of the amplifier. General idea of amplifier operation and its schema was discussed in the previous chapter, so here I just describe details of the electronic design, which were not provided so far (like usage of additional elements, choosing elements values etc.). KiCad project with electronic circuit schematic and PCB design is attached [here]({{ site.baseurl }}/attachments/kicad-audio-amplifier.zip).
 
 #### 3.1.1 Differential Pair
 Screen of the KiCad model of the subcircuit is provided below. 
 
-TODO: add after running in case sth changed.
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/differential-pair.png)   
 
 Notes regarding the schema: 
 1. Current source (transistor Q5, resistors R1, R3, potentiometer RV2) - I implemented current source as a transistor biased with two resistors. Additionally there is potentiometer, which can be used to regulate current value. 
 2. Operating point of transistor Q1 - it is set with resistor R5. Current flowing through Q1 is controlled by the current source. For the current to flow through Q1's collector, Q1's base also needs to draw current from somewhere. Current cannot be drawn from input since its direct current component is cut off by C1 capacitor. Therefore a resistor connected to ground is added to Q1's base to enable current flow through the base. A side effect of adding the resistor is a limitation of an input impedance of the amplifier. Too law input impedance could possibly destroy computer network card. Computing the voltage/current ratio of input signal showed that input impedance is around 1kΩ, which hopefully would be sufficiently high.
-3. Resistors R9 and R10 - these resistors (also called emitter degeneration resistors) constraint differential pair transconductance - differential pair is relatively easy to saturate, so its gain should be kept low. Normally R9 and R10 should have equal values. For some reason unknown assigning different values to them finally gave signal amplification on simulation greater than 1 (equal values of R9 and R10 always caused input signal suppression). Different values of emitter degeneration resistors will introduce imbalance to current flowing through Q1, Q8, which contradicts the purpose of Wilson current mirror. However overall circuit produced satisfactory results, so I decided to leave it as it is. Role of emitter degeneration resistors is described in [4].
+3. Resistors R9 and R10 - these resistors (also called emitter degeneration resistors) constraint differential pair transconductance - differential pair is relatively easy to saturate, so its gain should be kept low. Normally R9 and R10 should have equal values. For some reason unknown assigning different values to them finally gave signal amplification on simulation greater than 1 (equal values of R9 and R10 always caused input signal suppression). Different values of emitter degeneration resistors will introduce imbalance to current flowing through Q1, Q8, which contradicts the purpose of Wilson current mirror. However overall circuit produced satisfactory results, so I decided to leave it as it is. Role of emitter degeneration resistors is described in [2].
 4. Input capacitor C1 - cuts off direct current component of the input signal.
 5. Voltage divider of feedback loop - direct connecting feedback signal to amplifier did not give good simulation results. I had to calibrate the weight of feedback loop signal by multiplying it by gain (smaller than 1) of voltage divider. It was hard to find resistor values which would give satisfactory amplifier behavior on the simulation, because small changes in resistor values had a big impact on overall response. Finally I managed to find resistor values which gave expected gain and a response shape. However there was no guarantee that the real amplifier will behave exactly the same as the simulation. Therefore I added two potentiometers to enable tuning of feedback signal weight.
 
@@ -103,31 +104,30 @@ Notes regarding the schema:
 #### 3.1.2 Cascode
 Screen of the KiCad model of the subcircuit is provided below. 
 
-TODO: add after running in case sth changed.
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/cascode.png)   
 
 Notes regarding the schema: 
 1. Potentiometer RV3 - voltage amplification of cascode during simulation was satisfactory, but I decided to add possibility to change operating point of cascode transistors in case physical model differs from simulation.
 2. Connecting output of differential pair and cascode through capacitor C4 - capacitor cuts DC component from signal so it does not impact cascode operating point. 
 3. Capacitor C3 - lowers value of Q16 emitter resistance without an influence on operating point of transistors. Resistor R27 impacts the operating point of the cascode. For DC current capacitor is a break in the circuit, so C3 does not influence  the operating point of the cascode's transistors. For amplified AC signal, C3 is an element with finite impedance. Therefore C3 connected in parallel with R27 lowers Q16 emitter resistance for amplified AC signal, which increases cascode gain.  
-4. Input impedance of cascode - Differential pair has high output impedance, so impedance of C4 (together with whole cascode ?) should not be also be too low, because it would disturb operation of differential pair.
+4. Input impedance of cascode - Differential pair has high output impedance, so impedance of C4 (together with whole cascode) should not be also be too low, because it would disturb operation of differential pair.
 
 #### 3.1.3 Output stage
 Screen of the KiCad model of the subcircuit is provided below. 
 
-TODO: add after running in case sth changed.
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/output-stage.png)   
 
 Notes regarding the schema: 
 1. Connecting output stage and output from cascode with capacitor - capacitor cuts DC component from signal so it does not impact output stage operating point. 
 2. Using transistors as diodes (Q10, Q11) - instead of conventional diodes two transistors with bases connected to collectors are used. For some reason implementing diodes with transistors from Sziklai pairs (the same transistor model) gave far better results on simulation than ordinary diodes. I suppose this is because characteristics of such implemented diodes are similar to characteristics of the first transistors of Sziklai pairs (Q9 and Q12).
 3. resistors R21 and R19 - these resistors prevent leakage current and improve turn-off speed of Sziklai pairs. It is described in more detail in [3].
-4. Connecting output stage and amplifier output with capacitor - capacitor cuts DC component from signal. Only AC current should be provided to a speaker, DC current could break it (why?).
+4. Connecting output stage and amplifier output with capacitor - capacitor cuts DC component from signal. Only AC current should be provided to a speaker, DC current could break it.
 
 ### 3.2 Powering module
 I chose -9V and +9V to be supply voltages of the amplifier. I decided to use 230V electrical lines for powering (instead of batteries). To make electrical line supply applicable for my device, the powering needed to be converted from 230V AC to -9/+9V DC. Also powering had to be stable. Any voltage spikes from supply module could possibly break electronic elements.
 
 ## 4. Simulations
-To analyze operation of the amplifier model I run a few types of simulations. Simulations allow to roughly estimate what can be expected from the real amplifier - physical device always differs to some degree from software model. Before building the real amplifier I ensured that simulation results meet expectations. I did not simulate the powering module. Following subsections describe the simulations I run for amplifier along with obtained results.
-
+To analyze operation of the amplifier model I run a few types of simulations. Simulations allow to roughly estimate what can be expected from the real amplifier - physical device always differs to some degree from software model, so desired results of simulation do not guarantee desired operation of real amplifier. Before building the real amplifier I ensured that simulation results meet expectations. I did not simulate the powering module. Following subsections describe the simulations I run for amplifier along with obtained results.
 
 ## 4.1 Response to a signal of frequency 1kHz and amplitude 0.5V - 1V peak-to-peak 
 While creating the circuit model I checked its response using SPICE simulation paying attention to gain and shape of the output signal. The default input signal I used during most simulations was a sine wave with frequency equal to 1kHz and amplitude equal to 0.5V. Additionally I run a few tests for input sine waves with different amplitudes and frequencies to ensure correct behavior for variable signals.
@@ -151,7 +151,7 @@ Load connected to output stage drew 587mA peak-to-peak (root mean square 415mA) 
 Below diagram is a screen from SPICE simulation with amplifier output for a sine wave input of frequency 1kHz and 1V peak-to-peak. Time of the simulation was 1ms and step time was 1us.  
 
 
-![_config.yml]({{ site.baseurl }}/images/audio-amplifier/amplifier-simulation-2.png)   
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/amplifier-simulation.png)   
 
 
 Red line is the voltage value input signal.  
@@ -159,28 +159,30 @@ Blue line is the voltage value output signal.
 Green line is the current value output signal.  
 
 ## 4.2 Total harmonic distortion check
-I analyzed the THD to get information about harmonic distortions of the amplifier. SPICE and KiCad do not offer functionalities to compute THD, so I decided to use MATLAB for that. I exported amplifier output generated in SPICE simulation (for sine wave input signal with frequency=1kHz and amplitude=1V). In MATLAB I wrote a script (todo: link) reading SPICE data, computing FFT of the signal and drawing them on a plot. From this plot I read the first X harmonics and calculated THD to be around Y. This is a relatively high value, but I decided to accept it.
+I analyzed the THD of the amplifier output to get information about its harmonic distortions. SPICE and KiCad do not offer functionalities to compute THD, so I used MATLAB for that. I exported amplifier output generated in SPICE simulation. The simulation was run for 10ms with time step of 1us for input sine wave input signal with frequency=1kHz and amplitude=1V. I wrote a MATLAB script reading exported SPICE data, computing FFT of the signal and drawing it on a plot. From this plot I read the first 20 harmonics and calculated THD using the formula $$ THD = \frac{ \sqrt{V_2^2 + V_3^2 + V_4^2 + ... }}{V_1} $$ to be around 0.5%. This value was satisfactory for me.   
+Remark: THD diagram was dependent on simulation time and time step. Too long time step or too short simulation time produced diagrams where no harmonics were visible.
 
-Below diagram shows FFT of the amplifier output:
+Below diagram shows a fragment of FFT plot of the analyzed amplifier output:
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/thd.png) 
 
 ## 4.3 Frequency analysis   
 To check amplifier response within supported input signal frequency range I ran a frequency analysis. I computed voltage gain and phase shift of the amplifier output signal for sine waves with amplitude equal to 0.5V and frequency ranging from 5Hz to 200kHz (more than supported frequency range to add some reserve). Both gain and phase shift have change significant at the low frequencies. Gain changes by a factor of around 1.48 between 10 Hz and 30 Hz. Phase shift change around 73 degrees between 10 Hz and 100 Hz. However apart from these low frequencies gain and a phase shift were relatively constant. These results were satisfactory for me.
 
 Diagram below presents results of the frequency analysis:   
 
-![_config.yml]({{ site.baseurl }}/images/audio-amplifier/freq-2.png) 
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/frequency-analysis.png) 
 
 Red line is the voltage value of output signal.  
 Blue line is the voltage phase shift of output signal.  
 Green line is the voltage value of input signal.  
 Purple line is the voltage phase shift of input signal. 
 
-## 7. References
+## 5. References
 1. Paul Horwitz, Winfield Hill, The Art of Electronics, 3rd edition (Cambridge University Press, 2015). Section 2.3.8: Differential amplifiers  
-2. Douglas Self, Audio Power Amplifier Design Handbook, 4th edition (Focal Press, 2006). Section: TODO
-3. Paul Horwitz, Winfield Hill, The Art of Electronics, 3rd edition (Cambridge University Press, 2015). Section 2.4.2 Darlington connection  
-4. Emitter degeneration resistors
-
 2. Douglas Self, Audio Power Amplifier Design Handbook, 4th edition (Focal Press, 2006). Chapter 4, Subchapter: Improving input-stage linearity
+3. Paul Horwitz, Winfield Hill, The Art of Electronics, 3rd edition (Cambridge University Press, 2015). Section 2.4.2 Darlington connection  
 
+## 6. Attachments 
+1. [Main amplifier project in KiCad]({{ site.baseurl }}/attachments/kicad-audio-amplifier.zip) 
+2. [Amplifier powering project in KiCad]({{ site.baseurl }}/attachments/kicad-powering.zip) 
 
