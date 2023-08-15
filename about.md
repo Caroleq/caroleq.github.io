@@ -1,15 +1,15 @@
 ---
 layout: page
-title: About
 permalink: /about/
 ---
 
-Some information about you!
+Hi, thanks for visiting my blog. 
 
-### More Information
+### About blog  
+In this blog I plan to write posts mainly about programming and electronics.
 
-A place to include any other types of information that you'd like to include about yourself.
+### About me
 
-### Contact me
+My name is Karolina. I am a software developer. So far I worked mainly in projects concerning cyber security and embedded systems. In spare time I learn electronics and german language or travel.
 
-[email@domain.com](mailto:email@domain.com)
+You can reach me by email: karolina dot gontarek20 at gmail dot com 
