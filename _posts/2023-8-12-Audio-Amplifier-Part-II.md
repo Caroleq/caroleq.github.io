@@ -49,8 +49,21 @@ After constructing the main amplifier board I tested its operation (separately f
 I connected powering pins to TODO. I set supply voltage to 9V and put initial current constraint to around 100mA (less than expected value drawn when amplifying a signal) and turned on power supply to see how amplifier will behave before connecting any input. The current constraint was hit right after turning supply on. This did not necessarily mean that there was flaw in the amplifier - maybe this circuit just needed so much current in idle state. I connected generator(??? todo) to input of the amplifier and checked its response to sine wave by measuring amplifier output on oscilloscope. The output curve on oscilloscope did not resemble sine wave at all, this was a big (a few volts) garbage signal. I started to check voltages in different places on the board with multimeter. This lead me to tracking a few short circuits on the board. I fixed them, but it didn't help. Oscilloscope was still showing garbage. Also the current constraint of (todo) was still hit. The positive news was that no element seemed to be burnt, which could be the case if e.g. the element was connected the wrong way. Futhermore, no element appeared to be overheated, because too big current was passing through it. I decided to gradually relax constraints on current - perhaps the circuit just needed more current, 100mA was much less than current drawn by output stage on SPICE simulations. This carried a risk of breaking electronic elements if too big current passed through some elements, but I run out of ideas what else could be wrong. I increased the current constraint a few times up to around 1.7A. At this point the amplifier stopped hitting the constraint - it needed around 1.5A to operate. Along with increasing maximum current I noticed, that radiators connected to transistors from output stage were getting hot. It must be output stage that consumed more than 1A, which caused dissipation of heat. After a few minutes I had to turn the powering off, to prevent break electronic elements from overheating. However the output on the oscilloscope finally started resembling an amplified sine wave. After cooling down the radiators I connected amplifier input (with minijack?) to computer and output to speaker. I turned on the power again and played some music from the computer. The loudspeaker played the this music - my amplifier worked!
 
 ### 2.2 Measuring performance of the amplifier
+I run FFT analysis to check linearity of the amplifier. To do that I exported amplifier responses from oscilloscope software to csv, then using MATLAB script I generated their FFT plots. I considered two cases: when no input was provided to the amplifier and when amplifier got 1kHz sine wave with amplitude 200mA.
 
+FFT plots of the response when no input is provided:  
+1. Linear plot:   
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/fft-no-input.png)   
+1. Logarithmic plot:   
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/fft-no-input-log.png)   
+  
+Logarithmic FFT plot of the amplifier response to sine wave with frequency 1kHz and amplitude 200mV:  
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/fft-1khz.png)
 
+From these plots it is clear that the amplifier runs into self-oscillations. When no input is provided, the amplifier generates a signal at frequencies being approximately multiples of 100kHz. 
+When the 1kHz signal is provided as an input signal of the amplifier, 1kHz frequency is also present as the highest stripe on the FFT plot. However, there are also visible small stripes at multiples of 1kHz, which indicates a high THD. Moreover, there is also the self-oscillation at frequencies being multiples of 100kHz (including 100kHz frequency). This is similar to the previous plot, but the amplitudes of the self-oscillation stripes are smaller, when input is provided to the amplifier.  
+
+Self-oscillations are unacceptable for the amplifier. These oscillations were not audible directly, because they were beyond frequency range of human hearing, but they might affect quality of sound and from aesthetical point of view it was really ugly. THD was also too high. TODO: compute it roughly
 
 ## 3. Defects of the amplifier
 
