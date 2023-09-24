@@ -63,20 +63,26 @@ Logarithmic FFT plot of the amplifier response to sine wave with frequency 1kHz 
 From these plots it is clear that the amplifier runs into self-oscillations. When no input is provided, the amplifier generates a signal at frequencies being approximately multiples of 100kHz. 
 When the 1kHz signal is provided as an input signal of the amplifier, 1kHz frequency is also present as the highest stripe on the FFT plot. However, there are also visible small stripes at multiples of 1kHz, which indicates a high THD. Moreover, there is also the self-oscillation at frequencies being multiples of 100kHz (including 100kHz frequency). This is similar to the previous plot, but the amplitudes of the self-oscillation stripes are smaller, when input is provided to the amplifier.  
 
-Self-oscillations are unacceptable for the amplifier. These oscillations were not audible directly, because they were beyond frequency range of human hearing, but they might affect quality of sound and from aesthetical point of view it was really ugly. THD was also too high - I did not calculate it, because technically stripes coming from self-oscillation which are not a part of THD would need to be included.
+Self-oscillations are unacceptable for the amplifier. These oscillations were not audible directly, because they were beyond frequency range of human hearing, but they might affect quality of sound and from aesthetical point of view it was really ugly. THD was also too high - I did not calculate it, because stripes coming from self-oscillation which are not a part of THD would need to be included.
 
-## 3. Defects of the amplifier
-I identified the following problems with my amplifier:
-## 3.1. Overeating of radiators
-Within a few minutes of turning on radiators were becoming hot. The amplifier needed to be turned off then to cool radiators, because of the risk of damaging the electronic elements. To address this problem I installed a ventilator each of the radiators. This partially solved the problem. Radiator were getting hot much slower, however after a some longer time (todo:) they were becoming hot again. Also cement resistors R4 and R18 were becoming hot after some time since turning on.
-## 3.2. Self oscillations of the circuit 
-This was a major problem, since it might affect quality of sound and it was not clear where was the source of the issue. I did not put decoupling capacitors on supply rail, which for example could be a source of a negative feedback loop which in turn could be a source of oscillations. 
-## 3.3 Large current consumption
-This is a root cause of overheating of the elements. Current drawn by the output stage of the amplifier was much bigger than what I obtained on simulations (415mA root mean square). Unfortunately lots of the drawn current was wasted by dissipating into heat on power transistors and resistors instead of being delivered to loudspeaker.
+## 3. Addressing defects of the amplifier
+I identified two main problems with my amplifier: self-oscillation and large current consumption. This section describes how I tried to fix these issues and what were the results of those fixes.
+## 3.1 Large current consumption
+Current drawn by the output stage of the amplifier was around 1.5A. This was much bigger than current drawn by output stage load (it is not the same as output stage!) on simulations (415 mA root mean square). Large current was drawn in idle state (no amplifier input) as well as in active state (amplifier input present).   
+Unfortunately lots of the drawn current was wasted by dissipating into heat on power transistors and resistors instead of being delivered to loudspeaker. Within a few minutes of turning on radiators were becoming hot. The amplifier needed to be turned off then to cool radiators, because of the risk of damaging the electronic elements.   
+The cause of large current consumption was not clear at the beginning. However after resolving the second amplifier defect, which was self-oscillation, current consumption was greatly reduced, so probably large current was drawn by self-oscillation. 
+Since at the beginning I suspected that the circuit design required so much current I decided only to prevent overheating of elements. To cool radiators I installed a ventilator on each of them. This partially solved the problem. Radiator were getting hot much slower, however after a some longer time they were becoming hot again. Also cement resistors R4 and R18 were becoming hot after some time since turning on. At this point I decided to proceed to the next amplifier issue. Solving the second issue also solved current consumption problem, so I did not need to bother about overheating of elements anymore.
+
+## 3.2. Self-oscillation of the circuit 
+FFT analysis of oscilloscope output showed that circuit was running into self oscillation at frequencies being multiples of 100kHz. This was a major problem, since it might affect quality of sound and it was not clear where was the source of the issue. I did not put decoupling capacitors on supply rail, which for example could be a source of a feedback loop which in turn could be a source of oscillation. 
+I put a few decoupling capacitors on supply rails and checked amplifier response again. The output in idle state was still a big (a few volts) garbage. When a sine wave was provided on the input, the output resembled sine wave a little, but there was much noise and distortion in it. The sound it produced was rather clear sine wave sound however. I looked at FFT of amplifier response again. The oscillation had flattened a lot, but it still remained.   
+Therefore I tried adding a new capacitor near feedback loop. First I added a capacitor in parallel with R17 as a compensation capacitor, but it did not help. Then I added the capacitor with one end located between R17 and RV1 and the second end connected to the ground. I also calibrated potentiometers located in feedback loop: RV1 and RV4. This helped a lot. Oscillations disappeared. Output produced by amplifier in idle state was reduced to around X mV (compared to previous a few volts) TODO. After providing a sine wave to the amplifier, the output returned an amplified sine wave with minor noise garbage The sound of loudspeaker connected to amplifier became clearer. Also current consumption dropped a lot. Depending on sound volume, the amplifier drawn (?) between around 150 mA in idle state up to X mA, when loud music was turned on (compared to previous 1.5A).
+
 
 ## 4. Operation of the final amplifier device
 
 
 ## 5. Attachments
-1. [Main amplifier project in KiCad]({{ site.baseurl }}/attachments/kicad-audio-amplifier.zip) 
+1. [Main amplifier project in KiCad (initial version)]({{ site.baseurl }}/attachments/kicad-audio-amplifier.zip) 
 2. [Amplifier powering project in KiCad]({{ site.baseurl }}/attachments/kicad-powering.zip) 
+3. [Main amplifier project in KiCad (after addressing issues) TODO]({{ site.baseurl }}/attachments/kicad-final-audio-amplifier.zip) 
