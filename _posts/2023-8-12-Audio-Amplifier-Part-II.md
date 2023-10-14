@@ -13,7 +13,8 @@ Prerequisites: Requirements, design and SPICE simulations of the amplifier are d
 
 Acknowledgements: Thank you to Joachim for helping me with this project.
 
-## 1. Physical construction of the amplifier
+## 1. Physical construction of the boards
+Electronic design is discussed in detail in the previous post about the amplifier, so this section just describes physical aspects of creating boards for circuits.
 Electronic circuitry is split into main amplifier board containing the amplifier and powering board for providing power supply to the amplifier board. 
 
 Choosing to have two boards instead of one has the following advantages:
@@ -35,12 +36,11 @@ Back side of the board (according to KiCad PCB project). It contains THT element
 ![_config.yml]({{ site.baseurl }}/images/audio-amplifier/pcb-back.jpg)
 
 ## 1.2 Powering board
+I made powering board using universal board and THT elements. The work to assemble the circuit was really straightforward. In addition to what was mentioned in the previous post I added radiators for heat dissipation on LM337 elements to avoid overheating.
+TODO: usunac niepotrzebna czesc elementow?
 
-
-## 1.3 Casing
-
-## 1.4 Putting all together
-
+This is the photo of the ready powering board:
+TODO
 
 ## 2. Starting up the amplifier 
 After constructing the main amplifier board I tested its operation (separately from powering board).
@@ -78,6 +78,19 @@ FFT analysis of oscilloscope output showed that circuit was running into self os
 I put a few decoupling capacitors on supply rails and checked amplifier response again. The output in idle state was still a big (a few volts) garbage. When a sine wave was provided on the input, the output resembled sine wave a little, but there was much noise and distortion in it. The sound it produced was rather clear sine wave sound however. I looked at FFT of amplifier response again. The oscillation had flattened a lot, but it still remained.   
 Therefore I tried adding a new capacitor near feedback loop. First I added a capacitor in parallel with R17 as a compensation capacitor, but it did not help. Then I added the capacitor with one end located between R17 and RV1 and the second end connected to the ground. I also calibrated potentiometers located in feedback loop: RV1 and RV4. This helped a lot. Oscillations disappeared. Output produced by amplifier in idle state was reduced to around X mV (compared to previous a few volts) TODO. After providing a sine wave to the amplifier, the output returned an amplified sine wave with minor noise garbage The sound of loudspeaker connected to amplifier became clearer. Also current consumption dropped a lot. Depending on sound volume, the amplifier drawn (?) between around 150 mA in idle state up to X mA, when loud music was turned on (compared to previous 1.5A).
 
+
+## 4. Casing
+After successful startup of the amplifier I printed on 3D printer two separate casings for amplifier board and powering board.
+
+The casing for amplifier board had the following external elements on its surface:
+- switch for turning the amplifier on and off - transmits or blocks powering supply from powering connector to the board
+- LED - indicates whether amplifier is turned on.
+- volume knob - regulates sound volume with an underlying potentiometer. It transmits signal from input connector to the board input.
+- input connector - implemented as cinch socket (todo: rca???), allows to plug in cable with input signal. The signal is passed to input potentiometer.
+- loudspeaker connector (NK0027 LOGILINK) - transmits output signal from the board to the loudspeaker.
+- powering connector - delivers power from the powering board. It has three channels (positive and negative rails and ground).
+
+I placed the board in the casing using spacers and soldered all forementioned connections.
 
 ## 4. Operation of the final amplifier device
 
