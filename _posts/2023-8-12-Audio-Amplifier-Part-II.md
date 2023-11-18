@@ -82,15 +82,31 @@ Therefore I tried adding a new capacitor near feedback loop. First I added a cap
 ## 4. Casing
 After successful startup of the amplifier I printed on 3D printer two separate casings for amplifier board and powering board.
 
+### 4.1 Amplifier 
 The casing for amplifier board had the following external elements on its surface:
 - switch for turning the amplifier on and off - transmits or blocks powering supply from powering connector to the board
-- LED - indicates whether amplifier is turned on.
 - volume knob - regulates sound volume with an underlying potentiometer. It transmits signal from input connector to the board input.
 - input connector - implemented as cinch socket (todo: rca???), allows to plug in cable with input signal. The signal is passed to input potentiometer.
-- loudspeaker connector (NK0027 LOGILINK) - transmits output signal from the board to the loudspeaker.
+- two loudspeaker connectors (NK0027 LOGILINK) - transmit output signal from the board to the loudspeaker.
 - powering connector - delivers power from the powering board. It has three channels (positive and negative rails and ground).
 
 I placed the board in the casing using spacers and soldered all forementioned connections.
+
+Additionally I drilled around 30 small ventilation holes to provide air exchange within the casing. 
+
+Amplifier board inside the casing:   
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/amplifier-in-casing.jpg)   
+Front side of the casing:    
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/casing-back.jpg)   
+
+
+Back side of the casing:   
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/casing-front.jpg)     
+
+
+
+#### Heat test   
+I wanted to check if the temperature inside the closed casing does not get too high within prolonged operation of the device. To do that I threaded a thermocouple through one of the ventilation holes, closed the covering of the casing, turned on the music (moderate volume) and measured temperature on the thermocouple throughout an hour. The result: Temperature increased by 3 Celsius degrees within 40 minutes and after that remained unchanged. The outcome was satisfying - I assumed that there is no risk of amplifier overheat.
 
 ## 4. Operation of the final amplifier device
 
