@@ -36,10 +36,10 @@ Back side of the board (according to KiCad PCB project). It contains THT element
 ![_config.yml]({{ site.baseurl }}/images/audio-amplifier/pcb-back.jpg)
 
 ## 1.2 Powering board
-I made powering board using universal board and THT elements. The work to assemble the circuit was really straightforward. In addition to what was mentioned in the previous post I added radiators for heat dissipation on LM337 elements to avoid overheating.
+I made powering board using universal board and THT elements. The work to assemble the circuit was really straightforward. In addition to what was mentioned in the previous post I added radiators for heat dissipation on LM337 elements to avoid overheating. The input to the powering board was a transformer 250/12V.
 TODO: usunac niepotrzebna czesc elementow?
 
-This is the photo of the ready powering board:
+This is the photo of the ready powering board with transformer:
 TODO
 
 ## 2. Starting up the amplifier 
@@ -80,10 +80,10 @@ Therefore I tried adding a new capacitor near feedback loop. First I added a cap
 
 
 ## 4. Casing
-After successful startup of the amplifier I printed on 3D printer two separate casings for amplifier board and powering board.
+After successful startup of the amplifier I needed two separate casings for amplifier board and powering board.  
 
-### 4.1 Amplifier 
-The casing for amplifier board had the following external elements on its surface:
+### 4.1 Amplifier casing
+The casing for amplifier board I printed on a 3D printer. It had the following external elements on its surface:
 - switch for turning the amplifier on and off - transmits or blocks powering supply from powering connector to the board
 - volume knob - regulates sound volume with an underlying potentiometer. It transmits signal from input connector to the board input.
 - input connector - implemented as cinch socket (todo: rca???), allows to plug in cable with input signal. The signal is passed to input potentiometer.
@@ -107,6 +107,11 @@ Back side of the casing:
 
 #### Heat test   
 I wanted to check if the temperature inside the closed casing does not get too high within prolonged operation of the device. To do that I threaded a thermocouple through one of the ventilation holes, closed the covering of the casing, turned on the music (moderate volume) and measured temperature on the thermocouple throughout an hour. The result: Temperature increased by 3 Celsius degrees within 40 minutes and after that remained unchanged. The outcome was satisfying - I assumed that there is no risk of amplifier overheat.
+
+### 4.2 Powering board
+Casing for powering board needed to be less susceptible to deformations than amplifier casing, because transformer was also to be put into the casing and its weight was around 0.5kg. I would either need to print a very thick casing on a printer or use another solution. I bought a wooden box in which I drilled holes for electric grid supply input cord and direct supply current output connector.
+
+As a final result the casing had the following external elements on its surface:
 
 ## 4. Operation of the final amplifier device
 
