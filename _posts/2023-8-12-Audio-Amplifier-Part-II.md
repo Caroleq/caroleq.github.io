@@ -20,7 +20,7 @@ Electronic circuitry is split into main amplifier board containing the amplifier
 Choosing to have two boards instead of one has the following advantages:
  - complexity of electronic circuitry of separate boards for powering and amplifying modules is smaller than complexity of one board having both modules. It is easier to analyze and debug.
  - amplifying module can be tested separately from powering module by using (electric power supply???) to temporarily provide power supply. 
- - it is possible to construct amplifying and powering modules on different types of board - board for amplifier module was PCB and board for powering module was XXX.
+ - it is possible to construct amplifying and powering modules on different types of board - board for amplifier module was PCB and board for powering module was a universal THT board.
 
 ## 1.1 Main amplifier board
 I made a PCB for the main amplifier part. To design the PCB I used PCB Editor from KiCad. Maximum current that is supposed to flow through the first two amplifier stages is not expected to exceed a few mA. Therefore I could use SMD mounting for their elements. SMD allows to limit surface needed for elements compared to THT and avoids drilling the board as in case of THT. The output stage is intended to pass a relatively big current (up to around 1A). SMD elements could get burned in such a current, so THT mounting needed to be used. SMD elements were located on one side of PCB board, THT elements on the other. More details about the PCB can be found in [KiCad project]({{ site.baseurl }}/attachments/kicad-audio-amplifier.zip). Output stage transistors are attached to radiators for heat dissipation (radiators are not present in KiCad model). Resistors R4 and R18 are cement power resistors able to conduct current of the order of 1A.
@@ -36,8 +36,7 @@ Back side of the board (according to KiCad PCB project). It contains THT element
 ![_config.yml]({{ site.baseurl }}/images/audio-amplifier/pcb-back.jpg)
 
 ## 1.2 Powering board
-I made powering board using universal board and THT elements. The work to assemble the circuit was really straightforward. In addition to what was mentioned in the previous post I added radiators for heat dissipation on LM337 elements to avoid overheating. The input to the powering board was a transformer 250/12V.
-TODO: usunac niepotrzebna czesc elementow?
+I made powering board using universal board and THT elements. The work to assemble the circuit was really straightforward. In addition to what was mentioned in the previous post I added radiators for heat dissipation on LM337 elements to avoid overheating. The input to the powering board was a transformer 250/12V. Negative and positive output voltages were around -9.41V and 9.08V respectively.
 
 This is the photo of the ready powering board with transformer:
 TODO
@@ -86,7 +85,7 @@ After successful startup of the amplifier I needed two separate casings for ampl
 The casing for amplifier board I printed on a 3D printer. It had the following external elements on its surface:
 - switch for turning the amplifier on and off - transmits or blocks powering supply from powering connector to the board
 - volume knob - regulates sound volume with an underlying potentiometer. It transmits signal from input connector to the board input.
-- input connector - implemented as cinch socket (todo: rca???), allows to plug in cable with input signal. The signal is passed to input potentiometer.
+- input connector - implemented as cinch socket, allows to plug in cable with input signal. The signal is passed to input potentiometer.
 - two loudspeaker connectors (NK0027 LOGILINK) - transmit output signal from the board to the loudspeaker.
 - powering connector - delivers power from the powering board. It has three channels (positive and negative rails and ground).
 
@@ -109,14 +108,21 @@ Back side of the casing:
 I wanted to check if the temperature inside the closed casing does not get too high within prolonged operation of the device. To do that I threaded a thermocouple through one of the ventilation holes, closed the covering of the casing, turned on the music (moderate volume) and measured temperature on the thermocouple throughout an hour. The result: Temperature increased by 3 Celsius degrees within 40 minutes and after that remained unchanged. The outcome was satisfying - I assumed that there is no risk of amplifier overheat.
 
 ### 4.2 Powering board
-Casing for powering board needed to be less susceptible to deformations than amplifier casing, because transformer was also to be put into the casing and its weight was around 0.5kg. I would either need to print a very thick casing on a printer or use another solution. I bought a wooden box in which I drilled holes for electric grid supply input cord and direct supply current output connector.
+Casing for powering board needed to be less susceptible to deformations than amplifier casing, because transformer was also to be put into the casing and its weight was around 1kg. I would either need to print a very thick casing on a printer or use another solution. I made the bottom of the casing of the wood. Vertical walls and covering were printed on the 3D printer.
 
 As a final result the casing had the following external elements on its surface:
+- AC connector - delivers energy from power grid to the board's transformer 
+- output DC connector - conveys DC produced by the board. It has three channels (positive and negative rails and ground). The connector delivers current for the main amplifier board   
+
+Additionally I drilled around 20 small ventilation holes to provide air exchange within the casing. 
+
+Casing:   
+![_config.yml]({{ site.baseurl }}/images/audio-amplifier/power-supply-casing.jpg)     
 
 ## 4. Operation of the final amplifier device
 
 
 ## 5. Attachments
 1. [Main amplifier project in KiCad (initial version)]({{ site.baseurl }}/attachments/kicad-audio-amplifier.zip) 
-2. [Amplifier powering project in KiCad]({{ site.baseurl }}/attachments/kicad-powering.zip) 
+2. [Amplifier powering board project in KiCad]({{ site.baseurl }}/attachments/kicad-powering.zip) 
 3. [Main amplifier project in KiCad (after addressing issues) TODO]({{ site.baseurl }}/attachments/kicad-final-audio-amplifier.zip) 
