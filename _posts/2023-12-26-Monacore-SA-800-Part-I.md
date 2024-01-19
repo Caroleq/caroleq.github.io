@@ -13,7 +13,7 @@ As mentioned before the cycle concerns the electronic circuit of the amplifier. 
 
 TODO: picture of monacor amplifier
 
-## 1. Inputs and outputs description
+## 1. Inputs, outputs, control elements
 Documentation of device inputs and outputs is available at [1] in "SCHEMATICS" tab. It is written in German. Below I provide a translated and simplified version of inputs and outputs description. I skipped information that is not necessary to understand the operation of the amplifier circuit.
 
 Device inputs:
@@ -23,7 +23,8 @@ Device inputs:
 - AUX 2 - crystal and ceramics gramophone input.
 - Tuner - FM- and AM/FM-Stereo receiver input. Receivers can also be connected to AUX inputs.
 - MAIN IN - discussed along with PRE OUT output
-- power supply - 
+- SWITCHED power supply connectors - supplies the circuit with electricity, when the device is switched on. It can deliver up to 150W.
+- UNSWITCHED - supplies the circuit with electricity regardless of whether the device is turned on. Can deliver up to 300W.
 
 
 Device outputs:
@@ -31,14 +32,24 @@ Device outputs:
 - Tape out - additional output for magnetophon that records sound from the selected input after applying all available regulators. Sound coming from microphone can also be recorded through this output
 - PRE OUT - this output enables plugin of an additional device (e.g. echo unit), between boards NPP-OIA and NPA-OI (see next section for boards description). Input of such device is connected to PRE OUT (output of NPP-OIA) and output is connected to MAIN IN (input of NPA-OI). 
 - MONO OUT - the output conveys signal from combined two stereo canals into a single signal. Signal coming from MONO OUT connector is not as amplified as signals passed to main speakers output. An additional amplifier is needed to be located between the MONO OUT and loudspeakers.
+- PHONES - headphones output.
 
 
 Control elements:
 - PRE OUT/MAIN IN control switch - the switch can be in positions NORMAL and SEPARATE. In NORMAL position boards NPA-OI and NPP-OIA are connected. In SEPARATE positions these boards are disconnected and connection needs to be formed by them using PRE OUT and MAIN IN.
+- input selector - allows to select one of the inputs: PHONE 1, PHONE 2, AUX1, AUX2, TUNER.
+- operation mode switch - specifies mode of operation. Following modes are available: LEFT (RIGHT) - only signal from left(right) channel is provided to the speakers, MONO - combined sound from channels is provided to the speakers, STEREO - stereo operation, REV - stereo operation, but left and right channel are swapped compared to STEREO.
+- volume knob - regulates volume level for both channels.
+- volume switch - has values NORMAL and -20dB. In position -20dB, the sound is quieter by 20dB.
+- MIC switch - turns on microphone input.
+- TREBLE knob - amplifies or suppresses high frequency tones. 
+- BASS knob - amplifies or suppresses low frequency tones. 
+- SPEAKERS selector - turns on SWITCHED power supply and selects speakers. Following options are available: POWER OFF - the device is turned off, 
 
 returns input signal after applying adjustments and some amplification.    
 
-
+Other elements:
+- fuses - there are a few fuses to protect the circuit. Their detailed description is skipped.
 
 https://en.wikipedia.org/wiki/Phonograph (Crystal and ceramic)
 
