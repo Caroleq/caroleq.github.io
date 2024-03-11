@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Solution to JPM2 SPOJ Problem
-date: 2024-02-12 00:00:00 +0000
+date: 2024-03-11 00:00:00 +0000
 tags:
   spoj
   algorithms
@@ -45,9 +45,20 @@ This case is trivial. Prime numbers in considered range are a sum of one prime a
 
 ### 3.2 Computing results for numbers that are a sum of two primes
 I created a polynomial with coefficient standing near $$x^k$$ equal to 1 if k is a prime number and 0 otherwise:   
-$$ P_1(x) =  \sum_{k=1}^{N_{max}} a_kx^k$$, where $$a_k=1$$ if k is a prime number and $$a_k=0$$ otherwise.
+$$ P(x) =  \sum_{k=1}^{N_{max}} a_kx^k$$, where $$a_k=1$$ if k is a prime number and $$a_k=0$$ otherwise.   
+Lets consider a polynomial $$P(x)^2$$. It is easy to see that each of monomials $$x^k$$ with non-zero coefficient included in $$P(x)^2$$ is a result of multiplication of $$x^{k_1}$$ and $$x^{k_2}$$ from $$P(x)$$ such that $$k_1 + k_2 = k$$. $$k_1$$ and $$k_2$$ are prime numbers which goes from definition of $$P(x)$$.  There are two possible cases for $$k_1$$ and $$k_2$$:  
+1. $$k_1$$ and $$k_2$$ are different prime numbers. In this case pair {$$k_1$$, $$k_2$$} will add 2 to the coefficient of $$x^k$$ in $$P(x)^2$$. Once when $$k_1$$ comes from left (and $$k_2$$ from right) polynomial $$P(x)$$ in the product $$P(x) \cdot P(x)$$ and once when $$k_2$$ comes from left (and $$k_1$$ from right) polynomial $$P(x)$$ in the product $$P(x) \cdot P(x)$$  
+2. $$k_1=k_2$$. In this case pair {$$k_1$$, $$k_2$$} will add 1 to the coefficient of $$x^k$$ in $$P(x)^2$$.
 
+After above analysis deriving numbers that are a sum of two primes and counting ways of summing is easy:
+1. I subtract 1 from all coefficients to which {$$p$$, $$p$$} was added. To do this I subtract 1 from all monomials $$x^{2p}$$ in $$P(x)^2$$ where p is a prime number. Value of coefficient of $$x^k$$ in the result polynomial $$P'(x)$$ is twice a number of different primes $$k_1$$, $$k_2$$ that sum up to k.  
+2. I divide by two all coefficients of $$P'(x)$$. Lets denote the result polynomial as $$P''(x)$$. 
+
+Value of coefficient of $$x^k$$ in $$P''(x)$$ is equal to the number of two different primes that sum up to k. 
 
 ### 3.3 Computing results for numbers that are a sum of three primes
+Computing numbers that are a sum of three different primes is similar to calculations from the previous subsection. 
 
+Lets consider polynomial $$W(x)=P''(x) \cdot P(x)$$. Each of monomials $$x^k$$ with non-zero coefficient in $$W(x)$$ is a result of multiplication of 
 
+$$x^{k_1}$$ and $$x^{k_2}$$ 
