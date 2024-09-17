@@ -24,7 +24,7 @@ Below a list of initial requirements for my antenna is provided:
 1. Communication direction  
 As mentioned above this antenna is intended to be a receiving antenna. 
 2. Covered frequency range 
-I wanted to build an antenna that would receive signals in high frequency (HF) range. In general, the higher frequencies, the more difficult it becomes to build an antenna (?) or radio for it. Since in the future I plan to build my own radio receiver, I preferred not to construct an antenna for too high frequencies like UHF. On the other hand, with decreasing frequencies the geometric size of antenna increases (more on this in next requirements) and the antenna could not be too big. A compromise was high frequency range. I aimed at 20 MHz (TODO).  
+I wanted to receive signals in high frequency (HF) range. In general, the higher frequencies, the more difficult it becomes to build an antenna (?) or radio for it. Since in the future I plan to build my own radio receiver, I preferred not to construct an antenna for too high frequencies like UHF. On the other hand, with decreasing frequencies the geometric size of antenna increases (more on this in next requirements) and the antenna could not be too big. A compromise was high frequency range. I aimed at 20 MHz (TODO).  
 3. Mobility  
 It should be possible to easily move antenna from one place to another.  
 4. Geometric size  
@@ -35,14 +35,10 @@ I wanted to have a working antenna as fast as possible at price of efficiency an
 The typical input impedance of antennas is 50 Ohm. I decided to stick to this standard. 
 
 
-Dipole antennas (which are easy to build) are typically at least half-wave long. For 20 MHz half-wave is around 7.5 meters. That is far more than acceptable. After doing some research I came across magnetic loop antennas which are much smaller than other types of antennas and would fit into my geometric  
+Based on the above requirements I chose magnetic loop as a type of the antenna to build. Initially I thought about constructing a dipole antenna. Dipoles are far more easy to build than magloops. There is however one problem. Dipole antennas are typically at least half-wave long. For 20 MHz half-wave is around 7.5 meters. That is far more than acceptable because of space limitations. Magnetic loop was the only type of antenna I found that did not require straight piece of wire of length less than half-wave of received signal.  
 
 
 
-
-przeniesc z domu na balkon i z powrotem
-szybki do zrobienia
-Rozmiar - balkon
 1. range frequency
 2. Q factor
 Odbieranie jakichkolwiek sygnalow
