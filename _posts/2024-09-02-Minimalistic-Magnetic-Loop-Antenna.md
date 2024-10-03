@@ -50,12 +50,15 @@ Based on the above requirements I chose magnetic loop as a type of the antenna t
 ## 2. Constructing the antenna  
 
 ## 2.1 Loop
+The loop was made of soft copper wire. Its outer diameter was 10 mm and inner diameter was TODO. Overall length of the copper was TODO. Most of the wire formed magnetic loop. 
 
 ## 2.1. Mast for the loop 
 The loop needed a stable stand enabling moving the antenna from one place to another. One important aspect I had to keep in mind was that no metal elements should be present in the near of the loop - that would impact signal reception. From a few possible options I chose to construct a mast on which the loop could be hung. In wanted the mast to be at least two meters high so that the loop were placed on a reasonable height. The actual mast was constructed of polypropylene pipes. The pipes could be be easily connected one to another. I bought four pieces of polypropylene pipes (two pieces of TODO cm and two pieces of TODO cm) and two tee connectors. 
 
 I connected these in the following configuration:  
 TODO
+
+Rola pionowych i poziomych czesci rur
 
 Such standalone mast could not stand up straight. To provide a basis, I put the mast inside a Christmas tree stand:    
 TODO
@@ -68,13 +71,23 @@ Standalone Christmas tree stand was insufficient for stabilization of the mast, 
 Problem 3 was solved by threading strained rope throughout the mast. On 3D printer I printed two caps and installed them at the bottom and on top of the mast. These caps served as mounting points for the rope. I tied the start of the rope to the bottom cap, threaded it all the way through the mast, wrapped it around the top cap and threaded it back to the bottom cap, where I tied the end of the rope to the bottom cap. The string was strained. This greatly reduced bending of mast when the loop was hung.  
 
 
-To address Problem 1 an additional weight was added to christmas tree stand. I assembled a few wooden boards and mounted them around the stand. This added an additional TODO kg which prevented the antenna from failing. 
+To address Problem 1 an additional weight was added to christmas tree stand. I assembled a few wooden boards and mounted them around the stand. This added an additional TODO kg which prevented the antenna from failing. Boards were connected using metal screws, but the distance from the receiving loop was long enough that they should not impact signal reception.   
 
-Problem 2 was solved by adjusting the diameter of the bottom cap (printed to solve problem 3) so that it precisely fit into the Christmas tree slot. This reduced the issue, but the antenna still swayed a little bit. To provide more stabilization I added two string connections between top cap (printed to solve problem 3) and wooden boards (added to solve problem 1). Strings prevented the mast from swaying. In the end the mast was not ideally straight, but the leaning was so small (TODO degrees) that I decided to accept that.    
+Problem 2 was solved by adjusting the diameter of the bottom cap (printed to solve problem 3) so that it precisely fit into the Christmas tree slot. This reduced the issue, but the antenna still swayed a little bit. To provide more stabilization I added two string connections between top cap (printed to solve problem 3) and wooden boards (added to solve problem 1). Strings prevented the mast from swaying. In the end the mast was not ideally straight, but the leaning was so small (TODO degrees) that I decided to accept that.   
+
+TODO: wozek do jezdzenia
+
+
+Mounting the 
+After addressing above problems I wanted to mount the loop on the mast. I drilled holes in pipes and threaded strings (TODO: clamps?) through them. Then I hung the loop on the upper horizontally oriented pipe and tied the loop to the mast with these strings.
+
+
+## Balloon
+Welding
 
 ## Capacitor
 
-## Balloon
+
 
 ## Measurements
 
