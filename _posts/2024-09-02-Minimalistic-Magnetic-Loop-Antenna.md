@@ -50,7 +50,7 @@ Based on the above requirements I chose magnetic loop as a type of the antenna t
 ## 2. Constructing the antenna  
 
 ## 2.1 Loop
-The loop was made of soft copper wire. Its outer diameter was 10 mm and inner diameter was TODO. Overall length of the copper was TODO. Most of the wire formed magnetic loop. 
+The loop was made of soft copper wire. Its outer diameter was 10 mm and inner diameter was around 7.7mm. The loop circumference had around 2.95 m. I aimed at one quarter of wavelength for 28 MHz band. Since the 28 MHz wavelength is around 10.71 m, a quarter of the wavelength is 2.67 m. This was around 30 cm less than circumference of my loop, but this discrepancy was acceptable for me. At two ends of the loop the wire was prolonged by around 15 cm vertically to the loop plane. These additional pieces of wire served as location to mount capacitor, balloon etc. The loop was formed using pipe bender. Shape of the resulting was not an ideal circle. Length of the "diameter" (it was not a diameter to be precise) in shortest point was 91 cm and in the longest point it was 97 cm. Therefore area enclosed by the loop could vary between 0.65 $$m^2$$ and 0.74 $$m^2$$. For my needs this inaccuracy was acceptable.       
 
 ## 2.1. Mast for the loop 
 The loop needed a stable stand enabling moving the antenna from one place to another. One important aspect I had to keep in mind was that no metal elements should be present in the near of the loop - that would impact signal reception. From a few possible options I chose to construct a mast on which the loop could be hung. In wanted the mast to be at least two meters high so that the loop were placed on a reasonable height. The actual mast was constructed of polypropylene pipes. The pipes could be be easily connected one to another. I bought four pieces of polypropylene pipes (two pieces of TODO cm and two pieces of TODO cm) and two tee connectors. 
@@ -92,3 +92,5 @@ Welding
 ## Measurements
 
 zaklocenia
+
+Waga: stojak+antena 4.8kg/5.1kg
