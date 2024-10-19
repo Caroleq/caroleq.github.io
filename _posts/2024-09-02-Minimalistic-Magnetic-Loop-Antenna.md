@@ -53,34 +53,37 @@ Based on the above requirements I chose magnetic loop as a type of the antenna t
 The loop was made of soft copper wire. Its outer diameter was 10 mm and inner diameter was around 7.7mm. The loop circumference had around 2.95 m. I aimed at one quarter of wavelength for 28 MHz band. Since the 28 MHz wavelength is around 10.71 m, a quarter of the wavelength is 2.67 m. This was around 30 cm less than circumference of my loop, but this discrepancy was acceptable for me. At two ends of the loop the wire was prolonged by around 15 cm vertically to the loop plane. These additional pieces of wire served as location to mount capacitor, balloon etc. The loop was formed using pipe bender. Shape of the resulting was not an ideal circle. Length of the "diameter" (it was not a diameter to be precise) in shortest point was 91 cm and in the longest point it was 97 cm. Therefore area enclosed by the loop could vary between 0.65 $$m^2$$ and 0.74 $$m^2$$. For my needs this inaccuracy was acceptable.       
 
 ## 2.1. Mast for the loop 
-The loop needed a stable stand enabling moving the antenna from one place to another. One important aspect I had to keep in mind was that no metal elements should be present in the near of the loop - that would impact signal reception. From a few possible options I chose to construct a mast on which the loop could be hung. In wanted the mast to be at least two meters high so that the loop were placed on a reasonable height. The actual mast was constructed of polypropylene pipes. The pipes could be be easily connected one to another. I bought four pieces of polypropylene pipes (two pieces of TODO cm and two pieces of TODO cm) and two tee connectors. 
+The loop needed a stable stand enabling moving the antenna from one place to another. One important aspect I had to keep in mind was that no metal elements should be present in the near of the loop - that would impact signal reception. From a few possible options I chose to construct a mast on which the loop could be hung. I wanted the mast to be at least two meters high so that the loop were placed on a reasonable height.   
+The actual mast was constructed of polypropylene pipes. Pipes could be be easily connected by plugging one into another. I bought two pieces of TODO cm polypropylene pipes and a one tee connector. I connected two pipes by plugging one on top of the other and inserted the tee connector on top of the higher pipe so that perpendicular ending was perpendicular to pipes. Pipes formed the basis of the mast. Tee connector served as a place to hang the loop.   
 
-I connected these in the following configuration:  
-TODO
+![_config.yml]({{ site.baseurl }}/images/magloop-antenna/pipes.jpg)    
+*Pipes and tee connector used to construct mast*   
 
-Rola pionowych i poziomych czesci rur
+Such standalone mast could not stand up straight. To provide a basis, I put the mast inside a Christmas tree stand.   
+![_config.yml]({{ site.baseurl }}/images/magloop-antenna/stand.jpg)    
+*Christmas tree stand forming basis for mast*   
 
-Such standalone mast could not stand up straight. To provide a basis, I put the mast inside a Christmas tree stand:    
-TODO
+This construction was insufficient for stabilization of the mast, because of the following problems:   
+1. The diameter of the mast pipes was TODO cm narrower than diameter of the slot for the tree trunk in Christmas tree stand. Taking into account the weight of mast + loop and their mounting at height of TODO cm, the bottom of the mast would easily sway within the slot of the stand.   
+2. Mast did not form an ideally straight line after hanging a loop on it. Pipes that formed the mast were connected by inserting one into another. They bent under the weight of the loop.     
 
-Standalone Christmas tree stand was insufficient for stabilization of the mast, because of the following problems:   
-1. The stand weighted TODO and the loop + mast weighted around TODO. The mast with the loop hung would instantly fall, because the stand was too light and it hold the mast only at height of around TODO centimeters.   
-2. The diameter of the mast pipes was TODO cm narrower than diameter of the slot for the tree trunk in Christmas tree stand. Taking into account the weight of mast + loop and their mounting at height of TODO cm, the bottom of the mast would easily sway within one slot:   
-3. Mast did not form an ideally straight line after hanging a loop on it. Pipes that formed the mast were connected by inserting one into another. They bent under the weight of the loop.     
+Problem 2 was solved by threading strained rope throughout the mast. On 3D printer I printed two caps and installed them at the bottom and on top of the mast. These caps served as mounting points for the rope. I tied the start of the rope to the bottom cap, threaded it all the way through the mast, wrapped it around the top cap and threaded it back to the bottom cap, where I tied the end of the rope to the bottom cap. The string was strained. This greatly reduced bending of mast when the loop was hung.  
 
-Problem 3 was solved by threading strained rope throughout the mast. On 3D printer I printed two caps and installed them at the bottom and on top of the mast. These caps served as mounting points for the rope. I tied the start of the rope to the bottom cap, threaded it all the way through the mast, wrapped it around the top cap and threaded it back to the bottom cap, where I tied the end of the rope to the bottom cap. The string was strained. This greatly reduced bending of mast when the loop was hung.  
-
-
-To address Problem 1 an additional weight was added to christmas tree stand. I assembled a few wooden boards and mounted them around the stand. This added an additional TODO kg which prevented the antenna from failing. Boards were connected using metal screws, but the distance from the receiving loop was long enough that they should not impact signal reception.   
-
-Problem 2 was solved by adjusting the diameter of the bottom cap (printed to solve problem 3) so that it precisely fit into the Christmas tree slot. This reduced the issue, but the antenna still swayed a little bit. To provide more stabilization I added two string connections between top cap (printed to solve problem 3) and wooden boards (added to solve problem 1). Strings prevented the mast from swaying. In the end the mast was not ideally straight, but the leaning was so small (TODO degrees) that I decided to accept that.   
-
-TODO: wozek do jezdzenia
+Below photos of two caps are displayed:  
+  
+![_config.yml]({{ site.baseurl }}/images/magloop-antenna/bottom_cap.jpg)   ![_config.yml]({{ site.baseurl }}/images/magloop-antenna/top_cap.jpg)    
 
 
-Mounting the 
-After addressing above problems I wanted to mount the loop on the mast. I drilled holes in pipes and threaded strings (TODO: clamps?) through them. Then I hung the loop on the upper horizontally oriented pipe and tied the loop to the mast with these strings.
+Problem 1 was solved by adjusting the diameter of the bottom cap (printed to solve problem 2) so that it precisely fit into the Christmas tree slot. This reduced the issue, but the antenna still swayed a little bit. In the end the mast was not ideally straight, but the lean was so small (a few degrees) that I decided to accept that.  
 
+
+
+**Mounting the loop on the mast**   
+After addressing above problems I wanted to mount the loop on the mast. I drilled holes just above the horizontal end of the tee connector and at the height of the lowest point of the antenna loop. I threaded strings through the holes. Then I hung the loop on the horizontally oriented end of tee connector and tied the loop to the mast with these strings.
+
+Following photo shows the magnetic loop mounted on mast:  
+![_config.yml]({{ site.baseurl }}/images/magloop-antenna/loop_on_mast.jpg)    
+*Magnetic loop on mast*
 
 ## Balloon
 Welding
@@ -92,5 +95,3 @@ Welding
 ## Measurements
 
 zaklocenia
-
-Waga: stojak+antena 4.8kg/5.1kg
