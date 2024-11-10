@@ -77,6 +77,8 @@ Below photos of two caps are displayed:
 Problem 1 was solved by adjusting the diameter of the bottom cap (printed to solve problem 2) so that it precisely fit into the Christmas tree slot. This reduced the issue, but the antenna still swayed a little bit. In the end the mast was not ideally straight, but the lean was so small (a few degrees) that I decided to accept that.  
 
 
+Note: It is important to mount the loop as close to the axis of the mast as possible. If the mounting points of the loop are further away from the mast axis, the whole construction will be less stable and is likely to sway or fall.   
+
 
 **Mounting the loop on the mast**   
 After addressing above problems I wanted to mount the loop on the mast. I drilled holes just above the horizontal end of the tee connector and at the height of the lowest point of the antenna loop. I threaded strings through the holes. Then I hung the loop on the horizontally oriented end of tee connector and tied the loop to the mast with these strings.
@@ -86,12 +88,23 @@ Following photo shows the magnetic loop mounted on mast:
 *Magnetic loop on mast*
 
 ## Balloon
-Welding
+The antenna needed to have elements that would:  
+- convert balanced signal from antenna to unbalanced signal received by radio,
+- match impedance between radio (50 Ω) and antenna.  
+I decided to use balloon for these tasks.   
+
+At the first attempt I decided to built a 1:1 balloon (which does not match impedance if antenna output impedance and radio input impedance differ), connect capacitors of various capacitance values, perform measurements and after that to add rework the balloon to match impedance.   
+I wired balloon according to the recipe described in [Balun PART 2: Balun's magic and how to wind an effective working Balun](https://www.youtube.com/watch?v=JhAPJISUjB8&) .    
+
+Wires leading from ballon to antenna loop were soldered to the surface of the loop wire. Soldering spots were two ends of the loop - each wire leading from balloon was connected to another end of the loop. Since the whole 3 meters long copper wire was very conductive lots of power needed to be transferred to the soldering spot to heat it enough to tin it. Portable gas burner was used to heat the copper loop wire.    
+
 
 ## Capacitor
 
 
 
 ## Measurements
-
-zaklocenia
+I performed measurements at various stages of antenna construction process. Following equipment was used to conduct measurements:  
+- [HackRF One r10](https://greatscottgadgets.com/hackrf/) - to listen to audio decoded from signals incoming from antenna.  
+- [NanoVNA](https://nanovna.com/?page_id=21) - to measure antenna impedance (Smith diagrams) and SWR.
+- [Analog Discovery ADP3250](https://digilent.com/reference/test-and-measurement/analog-discovery-pro-3x50/start) - to measure antenna impedance and power dissipated on the antenna. Problem: generator could generate signals up to 20-25 MHz so for 28 MHz antenna this device was not sufficient.   
