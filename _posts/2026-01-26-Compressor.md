@@ -1,7 +1,7 @@
 ---
 layout: post
 title: DIY Audio Compressor Project 
-date: 
+date: 2026-01-15 00:00:00 +0000 
 tags:
   audio
   electronics
@@ -52,5 +52,34 @@ I also used the following articles (todo: po co) :
 - [More op-amp circuits](https://www.physics.udel.edu/~nowak/phys645/More_opamp_circuits.htm)  
 
 
-## 4. Design 
-The high-level idea for the design is that the audio input is split into two paths. The first path leads to voltage-controlled amplifier (VCA). The second path processes the input and, according to parameters values, produces a signal that is applied to the VCA and controls whether and if yes, how much, the output from the VCA should be reduced.  
+## 4. Electronic design 
+The high-level idea for the design is that the audio input is split into two paths. The first path leads to voltage-controlled amplifier (VCA). The second path processes the input and, according to parameters values, produces a signal that is applied to the VCA and controls whether and if yes, how much, the output from the VCA should be reduced (see diagram below). 
+
+![_config.yml]({{ site.baseurl }}/images/compressor/compressor-high-level.png)
+
+### 4.1 Determining compressing signal
+The subsystem determining compressing signal can be considered a path that starts with an input audio signal and ends with a signal that controls gain of VCA. 
+Subsystem determining compressing signal is comprised of a few logical steps: 
+1. full wave rectification - the input audio signal is converted into its absolute (positive) value.
+2. envelope detection/peak detection - converts the rectified signal into its envelope. The shape of the envelope depends on values of attack, release and soft/hard knee parameters, which ultimately impacts how quickly the audio signal reduction will be applied and removed.
+3. subtracting threshold - value of the threshold parameter is subtracted from the envelope. If threshold value is grater than envelope, the step outputs zero.  
+4. signal amplification - the value from the previous step is multiplied by a value dependent on the ratio parameter (for this compressor this value was less than 1) and applied as control signal to VCA.  
+
+TODO: add diagram  
+
+I'll elaborate on each of these steps in the following subsections.  
+
+### 4.1.1 Wave rectification
+
+### 4.1.2 Envelope detection
+
+### 4.1.3 Subtracting threshold
+
+### 4.1.4 Signal amplification
+
+### 4.2 Voltage Control Amplifier (VCA)
+
+### 4.3 End amplifier
+
+### 4.4 Limiting output signal
+
