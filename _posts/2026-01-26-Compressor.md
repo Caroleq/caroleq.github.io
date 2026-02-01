@@ -53,9 +53,12 @@ I also used the following articles (todo: po co) :
 
 
 ## 4. Electronic design 
-The high-level idea for the design is that the audio input is split into two paths. The first path leads to voltage-controlled amplifier (VCA). The second path processes the input and, according to parameters values, produces a signal that is applied to the VCA and controls whether and if yes, how much, the output from the VCA should be reduced (see diagram below). 
+The high-level idea for the design is that the audio input is buffered and then split into two paths. The first path leads to voltage-controlled amplifier (VCA). The second path processes the input and, according to parameters values, produces a signal that is applied to the VCA and controls whether and if yes, how much, the output from the VCA should be reduced. The compressed signal is then amplified by a parameterized gain and returned as the device output signal. Protection circuit limits signals whose amplitude exceed a maximum predefined level. The diagram below illustrates the compressor design.  
 
-![_config.yml]({{ site.baseurl }}/images/compressor/compressor-high-level.png)
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/compressor-high-level.png)   
+*Diagram of high level compressor design*
+{: refdef}
 
 ### 4.1 Determining compressing signal
 The subsystem determining compressing signal can be considered a path that starts with an input audio signal and ends with a signal that controls gain of VCA. 
@@ -65,17 +68,20 @@ Subsystem determining compressing signal is comprised of a few logical steps:
 3. subtracting threshold - value of the threshold parameter is subtracted from the envelope. If threshold value is grater than envelope, the step outputs zero.  
 4. signal amplification - the value from the previous step is multiplied by a value dependent on the ratio parameter (for this compressor this value was less than 1) and applied as control signal to VCA.  
 
-TODO: add diagram  
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/compression-signal.png)   
+*Diagram of high level compressor design*
+{: refdef}
 
 I'll elaborate on each of these steps in the following subsections.  
 
-### 4.1.1 Wave rectification
+#### Wave rectification
 
-### 4.1.2 Envelope detection
+#### Envelope detection
 
-### 4.1.3 Subtracting threshold
+#### Subtracting threshold
 
-### 4.1.4 Signal amplification
+#### Signal amplification
 
 ### 4.2 Voltage Control Amplifier (VCA)
 
@@ -83,3 +89,4 @@ I'll elaborate on each of these steps in the following subsections.
 
 ### 4.4 Limiting output signal
 
+### 4.5 Selection of electronic elements
