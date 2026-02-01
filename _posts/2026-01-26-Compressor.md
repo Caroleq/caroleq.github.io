@@ -60,24 +60,45 @@ The high-level idea for the design is that the audio input is buffered and then 
 *Diagram of high level compressor design*
 {: refdef}
 
+### 4.1. Input buffer
+
 ### 4.1 Determining compressing signal
 The subsystem determining compressing signal can be considered a path that starts with an input audio signal and ends with a signal that controls gain of VCA. 
 Subsystem determining compressing signal is comprised of a few logical steps: 
 1. full wave rectification - the input audio signal is converted into its absolute (positive) value.
 2. envelope detection/peak detection - converts the rectified signal into its envelope. The shape of the envelope depends on values of attack, release and soft/hard knee parameters, which ultimately impacts how quickly the audio signal reduction will be applied and removed.
 3. subtracting threshold - value of the threshold parameter is subtracted from the envelope. If threshold value is grater than envelope, the step outputs zero.  
-4. signal amplification - the value from the previous step is multiplied by a value dependent on the ratio parameter (for this compressor this value was less than 1) and applied as control signal to VCA.  
+4. signal amplification - the value from the previous step is multiplied by a value dependent on the ratio parameter (for this compressor this value was less than 1) and applied as control signal to VCA. 
 
-{:refdef: style="text-align: center;"}
+The diagram below illustrates the process of generating compressing signal.
+
+{:refdef: style="text-align: center; "}
 ![_config.yml]({{ site.baseurl }}/images/compressor/compression-signal.png)   
-*Diagram of high level compressor design*
+*Determining compressing signal steps*
 {: refdef}
 
-I'll elaborate on each of these steps in the following subsections.  
+I'll elaborate on each of the steps to create the VCA controlling signal in the following subsections.  
 
 #### Wave rectification
+Below picture shows circuit that performs full wave rectification:  
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/wave_rectifier.png)   
+*Wave rectification circuit*
+{: refdef}
+
+The circuit is similar to inverting operational amplifier opamp, but a diode is plugged at the opamp's output. Its operation can be split into two cases:
+1. The input signal is negative - TODO
+2. The input signal is positive - TODO
 
 #### Envelope detection
+Below picture shows circuit that performs envelope detection:  
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/envelope.png)   
+*Envelope detection circuit*
+{: refdef}
+
 
 #### Subtracting threshold
 
@@ -90,3 +111,6 @@ I'll elaborate on each of these steps in the following subsections.
 ### 4.4 Limiting output signal
 
 ### 4.5 Selection of electronic elements
+
+
+### 4.6 Putting this all together
