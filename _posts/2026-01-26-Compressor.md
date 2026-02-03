@@ -88,8 +88,8 @@ Below picture shows circuit that performs full wave rectification:
 {: refdef}
 
 The circuit is similar to inverting operational amplifier opamp, but a diode is plugged at the opamp's output. Its operation can be split into two cases:
-1. The input signal is negative - TODO
-2. The input signal is positive - TODO
+1. The input signal is negative - the opamp will produce positive output and current will flow through the diode similar as in the classical inverting amplifier. Because $$R_{17} = R_{18}$$, absolute values of input signal and rectified signal will be equal.  
+2. The input signal is positive - the diode will be reverse biased. Current will not flow through the diode. Thus if the circuit is not loaded, the input signal and rectified signal will be equal. Output of the circuit has impedance equal to $$R_{17} + R_{18}$$, so it cannot be connected to a circuit with a low input impedance.   
 
 #### Envelope detection
 Below picture shows circuit that performs envelope detection:  
@@ -99,6 +99,7 @@ Below picture shows circuit that performs envelope detection:
 *Envelope detection circuit*
 {: refdef}
 
+The circuit begins with a buffer that prevents overloading wave rectification circuit (see previous section).
 
 #### Subtracting threshold
 
