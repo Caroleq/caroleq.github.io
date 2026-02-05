@@ -99,7 +99,14 @@ Below picture shows circuit that performs envelope detection:
 *Envelope detection circuit*
 {: refdef}
 
-The circuit begins with a buffer that prevents overloading wave rectification circuit (see previous section).
+The circuit begins with a buffer U1A that prevents overloading wave rectification circuit (see previous section). The output of U1A is set according to the rectified signal. Current flowing from U1A's output loads capacitor C1. The D1 diode prevents current from flowing into the output of U1A. The charge accumulated on C1 is leaked through chain formed by R1 resistor and RV4 potentiometer. RV4 regulates how fast C1 is discharged. This part of the circuit is connected to the buffer U1B, which outputs value equal to voltage at C1 capacitor. This voltage is used to load C6 capacitor through RV2 potentiometer. RV2 regulates how fast C6 is charged. The signal at C6 capacitor will have the shape of the rectified signal envelope. 
+RV2 determines how fast value of the envelope will rise after the input signal volume increases. RV2 potentiometer is an attack parameter. Similarly RV4 determines how fast the value of the envelope will fall after the input signal value decreases: after the input signal value decreases, C1 will be discharged through R1 and RV4. This will result in discharging C6 through RV2 and decreasing envelope signal. Thus RV4 is a release parameter. 
+Note: In this circuit the RV2 (attack parameter) also impacts how fast the envelope signal decreases. This is not desired, but I decided to accept that.
+
+
+
+
+Depending of SW1 switch position the buffer feedback loop is wired to the anode or to the cathode side of the diode D1. 
 
 #### Subtracting threshold
 
