@@ -131,7 +131,7 @@ Below picture shows circuit that performs subtracted feedback amplification:
 *Signal amplifying circuit*
 {: refdef}
 
-
+The amplifier takes the subtracted envelope as input. 100kΩ R8 resistor prevents overloading of the subtracting circuit. The signal amplifier is just a standard inverting opamp configuration. Ratio parameter is implemented as RV3 potentiometer. The subtracted envelope is multiplied by a value ranging from 0 (if RV3 is 0Ω) to 1/10 (if RV3 is 10kΩ) and connected to VCA control input.   
 
 ### 4.2 Voltage Control Amplifier (VCA)
 
