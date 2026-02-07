@@ -100,15 +100,20 @@ Below picture shows circuit that performs envelope detection:
 {: refdef}
 
 The circuit begins with a buffer U1A that prevents overloading wave rectification circuit (see previous section). The output of U1A is set according to the rectified signal. Current flowing from U1A's output loads capacitor C1. The D1 diode prevents current from flowing into the output of U1A. The charge accumulated on C1 is leaked through chain formed by R1 resistor and RV4 potentiometer. RV4 regulates how fast C1 is discharged. This part of the circuit is connected to the buffer U1B, which outputs value equal to voltage at C1 capacitor. This voltage is used to load C6 capacitor through RV2 potentiometer. RV2 regulates how fast C6 is charged. The signal at C6 capacitor will have the shape of the rectified signal envelope. 
-RV2 determines how fast value of the envelope will rise after the input signal volume increases. RV2 potentiometer is an attack parameter. Similarly RV4 determines how fast the value of the envelope will fall after the input signal value decreases: after the input signal value decreases, C1 will be discharged through R1 and RV4. This will result in discharging C6 through RV2 and decreasing envelope signal. Thus RV4 is a release parameter. 
-Note: In this circuit the RV2 (attack parameter) also impacts how fast the envelope signal decreases. This is not desired, but I decided to accept that.
 
+RV2 potentiometer forms an attack parameter: It determines how fast value of the envelope will rise after the input signal volume increases. The time constant for C6 and RV2 takes values from $$100nF \cdot 0Ω = 0s$$ to when RV2 is turned to 0 to $$100nF \cdot 1MΩ = 0.1s$$ when RV2 is turned to maximum value. Thus the compressor attack is intended to range from 0s to 0.1s.
 
+RV4 potentiometer forms a release parameter: It determines how fast the value of the envelope will fall after the input signal value decreases. After the input signal value decreases, C1 will be discharged through R1 and RV4. This will result in discharging C6 through RV2 and decreasing envelope signal. Note: In this circuit the RV2 (attack parameter) also impacts how fast the envelope signal decreases. This is not desired, but I decided to accept that. The time constant for C1 and R1 + RV4 takes values from $$100nF \cdot 10kΩ = 0.001s$$ to when RV4 is turned to 0 to $$100nF \cdot (10k + 1M)Ω ≈ 0.1s$$ when RV4 is turned to maximum value. Thus the compressor release is intended to range from 0.001s to 0.1s (though this time range is impacted by attack subcircuit). Initially I wanted to use 10MΩ potentiometer so release maximum time would be 1s, but I could not find so large potentiometer.
 
-
-Depending of SW1 switch position the buffer feedback loop is wired to the anode or to the cathode side of the diode D1. 
+Soft/hard knee is implemented by SW1 switch: Depending of SW1 switch position the buffer U1A feedback loop is wired to the anode or to the cathode side of the diode D1. When the ping 1 of SW1 relays the signal, the feedback in U1A is directly connected to inverting output of U1A. Capacitor C1 will be loaded through diode D1 (soft knee). When the pin 3 of SW1 relays, the feedback in U1A must pass D1. Thus, U1A will output higher voltage and the C1 will be loaded faster (hard knee).  
 
 #### Subtracting threshold
+Below picture shows circuit that performs threshold subtraction:  
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/subtraction.png)   
+*Threshold subtraction circuit*
+{: refdef}
 
 #### Signal amplification
 
