@@ -115,7 +115,23 @@ Below picture shows circuit that performs threshold subtraction:
 *Threshold subtraction circuit*
 {: refdef}
 
+At input the subtraction circuit has a buffer U4A that prevents overloading envelope circuit (see previous section). The signal from the buffer is connected to an inverting summing amplifier U2A modified by addition of diodes D2 and D3.  
+
+The second signal that enters the summing amplifier U2A is threshold parameter controlled by RV1 potentiometer. The subcircuit that produces the threshold voltage begins with a voltage reference U3 that outputs 2V. This 2V signal is then inverted by an inverting opamp amplifier to -2V. The RV1 potentiometer converts this voltage to values in range from -2V to 0V. 
+
+Operation of U2A can be then split into two cases: 
+1. The envelope plus (negative) threshold is greater than 0: U2A will output negative voltage, the current will flow through D3 and R3. Because U2A outputs negative value and inverting opamp input is 0, D2 diode will be reverse polarized and will not let the current flow. In this scenario U2A operates similar to inverting summing amplifier, though the output at D3 anode will be increased by the diode voltage drop $$V_{out}= - \frac{R_3}{R_5} \cdot V_{env} - \frac{R_3}{R_4} \cdot V_{threshold} + U_{D3} = -V_{env} - V_{threshold} + U_{D3}$$  
+2. The envelope plus (negative) threshold is less than 0: U2A will output positive voltage. D3 will be reverse polarized, so the current will not flow through D3 and R3. Because U2A outputs positive value and inverting opamp input is 0, current will pass through the diode D2 closing the opamp's feedback loop. The capacitor C2 stabilizes the opamp. Because current does not flow through R3, the circuit output will be the same as inverting input of U2A - 0. 
+
 #### Signal amplification
+Below picture shows circuit that performs subtracted feedback amplification:  
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/control.png)   
+*Signal amplifying circuit*
+{: refdef}
+
+
 
 ### 4.2 Voltage Control Amplifier (VCA)
 
