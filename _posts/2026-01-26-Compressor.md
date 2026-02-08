@@ -5,6 +5,7 @@ date: 2026-01-15 00:00:00 +0000
 tags:
   audio
   electronics
+  compressor
 ---
 
 This article will describe an audio compressor which I built recently as a DIY project. The goal was mainly to build an electronic device that will teach me something new rather than to use the compressor for music production.
@@ -61,6 +62,13 @@ The high-level idea for the design is that the audio input is buffered and then 
 {: refdef}
 
 ### 4.1. Input buffer
+Below picture shows opamp that buffers input signal. The buffered signal is connected to input of VCA and to subcircuit that computes control signal passed to VCA.  
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/input_buffer.png)   
+*Input buffering*
+{: refdef}
+
 
 ### 4.1 Determining compressing signal
 The subsystem determining compressing signal can be considered a path that starts with an input audio signal and ends with a signal that controls gain of VCA. 
