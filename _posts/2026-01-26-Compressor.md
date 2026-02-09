@@ -70,7 +70,7 @@ Below picture shows opamp that buffers input signal. The buffered signal is conn
 {: refdef}
 
 
-### 4.1 Determining compressing signal
+### 4.2 Determining compressing signal
 The subsystem determining compressing signal can be considered a path that starts with an input audio signal and ends with a signal that controls gain of VCA. 
 Subsystem determining compressing signal is comprised of a few logical steps: 
 1. full wave rectification - the input audio signal is converted into its absolute (positive) value.
@@ -139,11 +139,27 @@ Below picture shows circuit that performs subtracted feedback amplification:
 *Signal amplifying circuit*
 {: refdef}
 
-The amplifier takes the subtracted envelope as input. 100kΩ R8 resistor prevents overloading of the subtracting circuit. The signal amplifier is just a standard inverting opamp configuration. Ratio parameter is implemented as RV3 potentiometer. The subtracted envelope is multiplied by a value ranging from 0 (if RV3 is 0Ω) to 1/10 (if RV3 is 10kΩ) and connected to VCA control input.   
+The amplifier takes the subtracted envelope as input. 100kΩ R8 resistor prevents overloading of the subtracting circuit. The signal amplifier is just a standard inverting opamp configuration. Ratio parameter is implemented as RV3 potentiometer. The subtracted envelope is multiplied by a value ranging from 0 (if RV3 is 0Ω) to 1/10 (if RV3 is 10kΩ) and connected to VCA control input. C5 capacitor improves stability of the circuit.  
 
-### 4.2 Voltage Control Amplifier (VCA)
+### 4.3 Voltage Control Amplifier (VCA)
+Below picture shows VCA circuit:  
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/vca.png)   
+*VCA circuit*
+{: refdef}
+
+Audio input signal is connected at the input of the circuit. C4 and R2 convert voltage signal into the current signal (this VCA has a current input signal), which enters the VCA. The signal is then multiplied by a gain (which for this signal range is 1 or less) determined by the circuit from section 4.3. The VCA outputs a current signal that is converted to the voltage signal by U6A opamp. 
 
 ### 4.3 End amplifier
+Below picture shows circuit that performs amplification of the VCA output and leads signal out of the compressor:  
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/end_amplifier.png)   
+*End amplification*
+{: refdef}
+
+The amplifier takes VCA voltage output as input. The signal is amplified by a non-inverting opamp amplifier. End amplification parameter is implemented as RV5 potentiometer. The signal is multiplied by a value ranging from 1 (if RV3 is 0Ω) to 11 (if RV5 is 10kΩ) and connected to the compressor output through resistor R15 which prevents excessive current flowing into the circuit connected to compressor's output.
 
 ### 4.4 Limiting output signal
 
