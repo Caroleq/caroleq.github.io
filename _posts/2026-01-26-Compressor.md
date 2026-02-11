@@ -61,6 +61,8 @@ The high-level idea for the design is that the audio input is buffered and then 
 *Diagram of high level compressor design*
 {: refdef}
 
+ KiCad project of the device with electronic circuit schematic and PCB design is attached [here]({{ site.baseurl }}/attachments/compressor_simulation.zip).
+
 ### 4.1. Input buffer
 Below picture shows opamp that buffers input signal. The buffered signal is connected to input of VCA and to subcircuit that computes control signal passed to VCA.  
 
@@ -162,8 +164,19 @@ Below picture shows circuit that performs amplification of the VCA output and le
 The amplifier takes VCA voltage output as input. The signal is amplified by a non-inverting opamp amplifier. End amplification parameter is implemented as RV5 potentiometer. The signal is multiplied by a value ranging from 1 (if RV3 is 0Ω) to 11 (if RV5 is 10kΩ) and connected to the compressor output through resistor R15 which prevents excessive current flowing into the circuit connected to compressor's output.
 
 ### 4.4 Limiting output signal
+Below screen shows circuit that limits signal returned by the compressor:  
 
-### 4.5 Selection of electronic elements
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/signal_limiter.png)   
+*Signal limitation*
+{: refdef}
 
+The goal of the circuit is to prevent excessive signal volume to be output by the compressor. The circuit takes VCA output amplified by the end opamp. If the magnitude of the signal exceeds 3 diode voltage drops, diodes D11, D10, D9 will conduct current which will limit the signal to 3 diode drops. When diodes D11, D10, D9 open, voltage at the base of Q1 transistor will rise. As a result the transistor will open and LED D5 will start to emit light. Diodes D6, D7, D8 and transistor Q2 operate similarly when magnitude of the signal drops 3 diode voltage drops below 0V.
+When the limit system is on, the compressor output will likely become distorted. 
 
-### 4.6 Putting this all together
+### 4.5 Selection of electronic components
+Active components used for this device are summarized below:
+1. ADA4075 - all opamps used in this circuit are ADA4075. I chose them because they are widely used, intended for audio-processing circuits and cheap. A single package contains two opamps.  
+2. THAT 2181 - the VCA is THAT 2181. Converting voltage signal into current signal at the VCA's input and converting current signal into voltage signal, values of resistors R11 and R12 is done according to suggested design from the datasheet. 
+3. LM4040 - it serves as a voltage reference producing 2V at its output.
+
