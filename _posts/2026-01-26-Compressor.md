@@ -61,7 +61,7 @@ The high-level idea for the design is that the audio input is buffered and then 
 *Diagram of high level compressor design*
 {: refdef}
 
- KiCad project of the device with electronic circuit schematic and PCB design is attached [here]({{ site.baseurl }}/attachments/compressor_simulation.zip).
+KiCad project of the device with electronic circuit schematic and PCB design is attached [here]({{ site.baseurl }}/attachments/compressor_simulation.zip).
 
 ### 4.1. Input buffer
 Below picture shows opamp that buffers input signal. The buffered signal is connected to input of VCA and to subcircuit that computes control signal passed to VCA.  
@@ -180,3 +180,36 @@ Active components used for this device are summarized below:
 2. THAT 2181 - the VCA is THAT 2181. Converting voltage signal into current signal at the VCA's input and converting current signal into voltage signal, values of resistors R11 and R12 is done according to suggested design from the datasheet. 
 3. LM4040 - it serves as a voltage reference producing 2V at its output.
 
+
+## 5. Physical assembly of the compressor
+
+### 5.1 Compressor PCB
+I designed PCB of the circuit using KiCad software, ordered manufacturing of the board by JLPC and soldered the board. 
+
+Photos below show both sides of the soldered circuit:
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/pcb1.jpg)   
+*One side of the compressor board*
+{: refdef}
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/pcb2.jpg)   
+*Second side of the compressor board*
+{: refdef}
+
+Because of a few issues in the compressor design I had to change some of the board wiring (see kynar wires on the first side of the board). 
+The device has lots of parameters intended to be tunable by its users. Elements that enable this tunability (potentiometers and switches) and limiter circuit LEDs are attached to the device's case and connected to the board through JST connectors.
+
+For debugging purposes I added a few test points and zero Ohm resistors. 
+
+### 5.2 Compressor casing
+
+#### Case construction
+I designed the case using FreeCAD software and printed the case using 3D printer (PLA filament). Project of the case is attached [here]({{ site.baseurl }}/attachments/compressor.FCStd).
+The case consists of the actual case and the covering.  
+
+
+#### Knobs
+
+
+## 6. Powering of the board
