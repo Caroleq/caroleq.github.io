@@ -203,13 +203,17 @@ The device has lots of parameters intended to be tunable by its users. Elements 
 For debugging purposes I added a few test points and zero Ohm resistors. 
 
 ### 5.2 Compressor casing
+I designed the case using FreeCAD software and printed the case using 3D printer (PLA filament). Project file of the case is attached [here]({{ site.baseurl }}/attachments/compressor.FCStd).
+The case consists of the actual case and the covering (see screen from FreeCAD below).
 
-#### Case construction
-I designed the case using FreeCAD software and printed the case using 3D printer (PLA filament). Project of the case is attached [here]({{ site.baseurl }}/attachments/compressor.FCStd).
-The case consists of the actual case and the covering.  
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/casing.png)   
+*Screen of the case project in FreeCAD*
+{: refdef}
 
+The casing has holes for potentiometers, switches, audio and power inputs/outputs, LEDs and board holding elements. 
 
-#### Knobs
+### 5.3 Mounting the board within the case
 
 
 ## 6. Powering of the board
