@@ -211,9 +211,19 @@ The case consists of the actual case and the covering (see screen from FreeCAD b
 *Screen of the case project in FreeCAD*
 {: refdef}
 
-The casing has holes for potentiometers, switches, audio and power inputs/outputs, LEDs and board holding elements. 
+The casing has holes for potentiometers, switches, audio and power input/output, LEDs and board holding elements. 
 
 ### 5.3 Mounting the board within the case
+In the final step I assembled PCB within the casing using a spacer. I mounted connectors, potentiometers, LEDs and switch on the casing side and wired them to PCB. I used cinch connector for audio input and output and GX12 connector for powering. At sides of potentiometers located on the outside of the casing I mounted knobs. Finally I added labels describing what is the purpose of a given element located on the outside of the casing.     
 
+Two below photos show the assembled compressor: 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/compressor.jpg)   
+*Assembled compressor*
+{: refdef}
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/compressor_front_panel.jpg)   
+*Front panel of the compressor*
+{: refdef}
 ## 6. Powering of the board
