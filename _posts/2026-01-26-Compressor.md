@@ -176,9 +176,12 @@ When the limit system is on, the compressor output will likely become distorted.
 
 ### 4.5 Selection of electronic components
 Active components used for this device are summarized below:
-1. ADA4075 - all opamps used in this circuit are ADA4075. I chose them because they are widely used, intended for audio-processing circuits and cheap. A single package contains two opamps.  
-2. THAT 2181 - the VCA is THAT 2181. Converting voltage signal into current signal at the VCA's input and converting current signal into voltage signal, values of resistors R11 and R12 is done according to suggested design from the datasheet. 
-3. LM4040 - it serves as a voltage reference producing 2V at its output.
+1. All operational amplifiers used in this circuit are ADA4075. I chose them because they are widely used, intended for audio-processing circuits and cheap. A single package contains two opamps.  
+2. For Voltage Control Amplifier I chose THAT 2181. Converting voltage signal into current signal at the VCA's input and converting current signal into voltage signal, values of resistors R11 and R12 is done according to suggested design from the [datasheet](https://www.thatcorp.com/datashts/2181data.pdf). The relationship between the gain and the control signal is exponential.   
+3. LM4040 serves as a voltage reference producing 2V at its output.  
+4. Transistors for turning on and off LEDs in limiter are popular BJT transistors BC547B and BC559AP.
+
+All potentiometers used in the device have linear characteristics.   
 
 
 ## 5. Physical assembly of the compressor
@@ -226,4 +229,42 @@ Two below photos show the assembled compressor:
 ![_config.yml]({{ site.baseurl }}/images/compressor/compressor_front_panel.jpg)   
 *Front panel of the compressor*
 {: refdef}
+
+This is not particularly ergonomic, but my goal was mainly to learn electronics.
+
 ## 6. Powering of the board
+
+
+## 7. Measurements
+After assembling the compressor I measured its operation for various parameter values. 
+
+I executed measurements using ADP3450 device (it contains oscilloscope and wave generator). As an audio input for all measurements I used a cymbal sound imported from a [WAV file]({{ site.baseurl }}/attachments/cymbal.wav). Each test was supposed to exercise a single compressor parameter. A test consisted of measurements of compressor input, output and VCA control for two values of a tested parameter (in most cases maximum and minimum values).
+
+During testing I assumed a default set of values for all parameters. For a single test I changed value of the tested parameter and other parameters were set to their default values. 
+Default values of parameters are as following (though the discrepancy between actual and provided values may be significant):  
+- attack time - 50 ms 
+- release time - 500 ms 
+- hard/soft knee - todo: up 
+- threshold - voltage level 0.5 V 
+- end amplifier - no amplification (gain equal to 1)
+- ratio -  
+
+Obtained results are provided below.
+
+### Attack test
+#### 1. Minimum attack time
+Perimeter values:  
+
+
+
+#### 2. Maximum attack time
+
+### Release test
+
+### Hard/soft knee test
+
+### Ratio test
+
+### Threshold test
+
+### Limiter test
