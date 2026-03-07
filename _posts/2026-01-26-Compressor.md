@@ -238,7 +238,7 @@ This is not particularly ergonomic, but my goal was mainly to learn electronics.
 ## 7. Measurements
 After assembling the compressor I measured its operation for various parameter values. 
 
-I executed measurements using ADP3450 device (it contains oscilloscope and wave generator). As an audio input for all measurements I used a cymbal sound imported from a [WAV file]({{ site.baseurl }}/attachments/cymbal.wav). Each test was supposed to exercise a single compressor parameter. A test consisted of measurements of compressor input, output and VCA control for two values of a tested parameter (in most cases maximum and minimum values).
+I executed measurements using ADP3450 device (it contains oscilloscope and wave generator). As an audio input for all measurements I used a cymbal sound sample imported from a [WAV file]({{ site.baseurl }}/attachments/cymbal.wav). Each test was supposed to exercise a single compressor parameter. A test consisted of measurements of compressor input, output and VCA control for two values of a tested parameter (in most cases maximum and minimum values).
 
 During testing I assumed a default set of values for all parameters. For a single test I changed value of the tested parameter and other parameters were set to their default values. 
 Default values of parameters are as following (though the discrepancy between actual and provided values may be significant):  
@@ -249,17 +249,34 @@ Default values of parameters are as following (though the discrepancy between ac
 - end amplifier - no amplification (gain equal to 1)
 - ratio -  
 
-Obtained results are provided below.
+Obtained results are provided below. Most of diagrams present only the first 200 ms of the input sample.
 
 ### Attack test
-#### 1. Minimum attack time
-Perimeter values:  
+The test checked operation of the attack parameter. Minimum and maximum attack times are 0ms and 100ms respectively. Diagrams below show compressor operation when the attack parameter is set to minimum and maximum values.
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/measurements/attack_min.png)   
+*Minimum attack parameter response*
+{: refdef}
 
-
-#### 2. Maximum attack time
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/measurements/attack_max.png)   
+*Maximum attack parameter response*
+{: refdef}
 
 ### Release test
+The test checked operation of the release parameter. Minimum and maximum release time are 1ms and 100ms respectively. Diagrams below show compressor operation when the release parameter is set to minimum and maximum values.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/measurements/release_min.png)   
+*Minimum release parameter response*
+{: refdef}
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/measurements/release_max.png)   
+*Maximum release parameter response*
+{: refdef}
+
 
 ### Hard/soft knee test
 
