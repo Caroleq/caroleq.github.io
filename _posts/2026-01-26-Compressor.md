@@ -232,13 +232,10 @@ Two below photos show the assembled compressor:
 
 This is not particularly ergonomic, but my goal was mainly to learn electronics.
 
-## 6. Powering of the board
-
-
-## 7. Measurements
+## 6. Measurements
 After assembling the compressor I measured its operation for various parameter values. 
 
-I executed measurements using ADP3450 device (it contains oscilloscope and wave generator). As an audio input for all measurements I used a cymbal sound sample imported from a [WAV file]({{ site.baseurl }}/attachments/cymbal.wav). Each test was supposed to exercise a single compressor parameter. A test consisted of measurements of compressor input, output and VCA control for two values of a tested parameter (in most cases maximum and minimum values).
+I executed measurements using ADP3250 device (it contains oscilloscope and wave generator). As an audio input for all measurements I used a cymbal sound sample imported from a [WAV file]({{ site.baseurl }}/attachments/cymbal.wav). Each test was supposed to exercise a single compressor parameter. A test consisted of measurements of compressor input, output and VCA control for two values of a tested parameter (in most cases maximum and minimum values). Compressor was powered from laboratory power supply. 
 
 During testing I assumed a default set of values for all parameters. For a single test I changed value of the tested parameter and other parameters were set to their default values. 
 Default values of parameters are as following (though the discrepancy between actual and provided values may be significant):  
@@ -264,6 +261,9 @@ The test checked operation of the attack parameter. Minimum and maximum attack t
 *Maximum attack parameter response*
 {: refdef}
 
+When the attack is set to minimum time, the sound is flattened at the beginning and the control signal rises to around 50 mV at the beginning of the sample.  
+When the attack is set to maximum time, the sound is not compressed and control signal is zero.  
+
 ### Release test
 The test checked operation of the release parameter. Minimum and maximum release time are 1ms and 100ms respectively. Diagrams below show compressor operation when the release parameter is set to minimum and maximum values.
 
@@ -277,11 +277,26 @@ The test checked operation of the release parameter. Minimum and maximum release
 *Maximum release parameter response*
 {: refdef}
 
+Both for minimum and maximum values of the release parameter the audio is compressed, which is most clearly visible at the beginning of the sample, though they have slightly different shapes. The difference is more apparent in the control signal waveform. For minimum release time control signal consists of many short spikes whereas for maximum release time the signal decreases much less steeply.
 
 ### Hard/soft knee test
 
 ### Ratio test
 
 ### Threshold test
+The test checked operation of the threshold parameter. Minimum and maximum threshold values are 0V and 2V, though usually users will not know what is the voltage level of their audio signal. Diagrams below compare operation of minimum and maximum threshold value.  
+
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/measurements/threshold_min.png)   
+*Minimum threshold*
+{: refdef}
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/measurements/threshold_max.png)   
+*Maximum threshold*
+{: refdef}
+
+For the maximum value of the threshold, output signal is slightly reduced compared to the input signal, control signal is slightly greater than 0. Ideally the control signal should be equal to 0 (I assumed that envelope is less than 2V), but such minor reduction was acceptable for me. For the minimum value of the threshold the signal is greatly compressed, especially at the beginning of the sample.  
 
 ### Limiter test
