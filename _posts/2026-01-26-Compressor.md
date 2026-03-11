@@ -141,7 +141,8 @@ Below picture shows circuit that performs subtracted feedback amplification:
 *Signal amplifying circuit*
 {: refdef}
 
-The amplifier takes the subtracted envelope as input. 100kΩ R8 resistor prevents overloading of the subtracting circuit. The signal amplifier is just a standard inverting opamp configuration. Ratio parameter is implemented as RV3 potentiometer. The subtracted envelope is multiplied by a value ranging from 0 (if RV3 is 0Ω) to 1/10 (if RV3 is 10kΩ) and connected to VCA control input. C5 capacitor improves stability of the circuit.  
+The amplifier takes the subtracted envelope as input. 100kΩ R8 resistor prevents overloading of the subtracting circuit. The signal amplifier is just a standard inverting opamp configuration. Ratio parameter is implemented as RV3 potentiometer. The subtracted envelope is multiplied by a value ranging from 0 (if RV3 is 0Ω) to 1/10 (if RV3 is 10kΩ) and connected to VCA control input. C5 capacitor improves stability of the circuit. 
+I did not determine the range of ratio in the standard way i.e. from 1:M to 1:N, because I did not know what was the exact relation between control signal and VCA's gain and between envelope produced by the compressor and the actual envelope. This is not entirely correct, but acceptable for me. 
 
 ### 4.3 Voltage Control Amplifier (VCA)
 Below picture shows VCA circuit:  
@@ -244,7 +245,7 @@ Default values of parameters are as following (though the discrepancy between ac
 - hard/soft knee - todo: up 
 - threshold - voltage level 0.5 V 
 - end amplifier - no amplification (gain equal to 1)
-- ratio -  
+- ratio - 0 to 1/10 
 
 Obtained results are provided below. Most of diagrams present only the first 200 ms of the input sample.
 
@@ -253,12 +254,12 @@ The test checked operation of the attack parameter. Minimum and maximum attack t
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/compressor/measurements/attack_min.png)   
-*Minimum attack parameter response*
+*Minimum attack*
 {: refdef}
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/compressor/measurements/attack_max.png)   
-*Maximum attack parameter response*
+*Maximum attack*
 {: refdef}
 
 When the attack is set to minimum time, the sound is flattened at the beginning and the control signal rises to around 50 mV at the beginning of the sample.  
@@ -269,12 +270,12 @@ The test checked operation of the release parameter. Minimum and maximum release
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/compressor/measurements/release_min.png)   
-*Minimum release parameter response*
+*Minimum release*
 {: refdef}
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/compressor/measurements/release_max.png)   
-*Maximum release parameter response*
+*Maximum release*
 {: refdef}
 
 Both for minimum and maximum values of the release parameter the audio is compressed, which is most clearly visible at the beginning of the sample, though they have slightly different shapes. The difference is more apparent in the control signal waveform. For minimum release time control signal consists of many short spikes whereas for maximum release time the signal decreases much less steeply.
@@ -282,9 +283,23 @@ Both for minimum and maximum values of the release parameter the audio is compre
 ### Hard/soft knee test
 
 ### Ratio test
+The test checked operation of the ratio parameter. Minimum and maximum ratio values are 0 and 1/10. Diagrams below compare device operation for these two values. 
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/measurements/ratio_min.png)   
+*Minimum ratio*
+{: refdef}
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/measurements/ratio_max.png)   
+*Maximum ratio*
+{: refdef}
+
+When the ratio is set to maximum, the sound is flattened at the beginning and the control signal rises to around 100 mV at the beginning of the sample.  
+When the attack is set to minimum time, the sound is not compressed and control signal is zero.  
 
 ### Threshold test
-The test checked operation of the threshold parameter. Minimum and maximum threshold values are 0V and 2V, though usually users will not know what is the voltage level of their audio signal. Diagrams below compare operation of minimum and maximum threshold value.  
+The test checked operation of the threshold parameter. Minimum and maximum threshold values are 0V and 2V, though usually users will not know what is the voltage level of their audio signal. Diagrams below compare device operation of minimum and maximum threshold value.  
 
 
 {:refdef: style="text-align: center;"}
