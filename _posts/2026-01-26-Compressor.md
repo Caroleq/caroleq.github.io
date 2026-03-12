@@ -21,34 +21,32 @@ Before starting the design I assumed the following characteristics of input sign
 - voltage range - I assumed that voltage range will fit into range from -1V to +1V. I picked this range, because the peak-to-peak voltage measured on my PC was almost 2V.  
 - frequencies range - humans are able to hear sounds in a frequency range from about 10Hz to 20kHz. Therefore I assumed that frequencies of input signal would be in a range 10Hz-20kHz.   
 
-Assumption for the amplifier or other device connected to the compressor:
-- input impedance - TODO
-- accepted voltage range
+Assumption for the amplifier or other device connected to the compressor's output:
+- input impedance - minimum 1kΩ   
+- accepts voltage range 5V peak-to-peak
 
 ## 2. Requirements
 Following parameters were the required to be present for the compressor:
-- release  
-- attack     
+- release - from 1ms to 1s (later I had to modify the requirement)   
+- attack - from 0ms to 100ms    
 - ratio  
 - threshold  
 - soft knee and hard knee 
 - amplifier for compressed signal  
 I did not specify ranges of values for release, attack, ratio, threshold and amplifier, because my attitude was that I want a minimalistic working device.  
 
-- maximum output voltage - around 2.5V (TODO: check)  
-- output impedance - TODO: NEEDED?
-
-
-
-- release - from 1ms to 1s (later I had to modify the requirement)  
-- attack - from 0ms to 100ms  
+Other requirements:
+- maximum output voltage - around 5V peak-to-peak
+- output impedance slightly greater than 0 (10Ω-60Ω)
+- the input can accept signal of relatively big impedance, say 1kΩ
+  
 
 ## 3. Resources  
 My design is heavily based on the compressor design presented in these YouTube videos:  
 - [Designing a simple audio compressor from scratch](https://www.youtube.com/watch?v=Wag-yTyAxPA)  
 - [Designing a production-ready audio compressor](https://www.youtube.com/watch?v=OMeKERW1E60)  
 
-I also used the following articles (todo: po co) :  
+I also used the following articles:  
 - [Analog Compressor Design](https://web.archive.org/web/20250326195231/https://mattrottinghaus.com/2017/07/20/analog-compressor-design/)  
 - [More op-amp circuits](https://www.physics.udel.edu/~nowak/phys645/More_opamp_circuits.htm)  
 
@@ -242,7 +240,7 @@ During testing I assumed a default set of values for all parameters. For a singl
 Default values of parameters are as following (though the discrepancy between actual and provided values may be significant):  
 - attack time - 50 ms 
 - release time - 500 ms 
-- hard/soft knee - todo: up 
+- soft knee 
 - threshold - voltage level 0.5 V 
 - end amplifier - no amplification (gain equal to 1)
 - ratio - 0 to 1/10 
@@ -281,6 +279,20 @@ The test checked operation of the release parameter. Minimum and maximum release
 Both for minimum and maximum values of the release parameter the audio is compressed, which is most clearly visible at the beginning of the sample, though they have slightly different shapes. The difference is more apparent in the control signal waveform. For minimum release time control signal consists of many short spikes whereas for maximum release time the signal decreases much less steeply.
 
 ### Hard/soft knee test
+The test checked operation of the hard/soft knee parameter. Diagrams below shows operation of these two knee types.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/measurements/soft_knee.png)   
+*Soft knee*
+{: refdef}
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/measurements/hard_knee.png)   
+*Hard knee*
+{: refdef}
+
+An error turned up while performing the test. Switching the knee was causing high oscillations that could last a few minutes. Shape of control signal did not differ significantly for these two knee types. Also the control signal shape of both knees differs significantly from control signal shapes obtained during other tests, which is unexpected. My conclusion was that there was an issue with this parameter, but I decided to ignore that.
+
 
 ### Ratio test
 The test checked operation of the ratio parameter. Minimum and maximum ratio values are 0 and 1/10. Diagrams below compare device operation for these two values. 
@@ -312,6 +324,14 @@ The test checked operation of the threshold parameter. Minimum and maximum thres
 *Maximum threshold*
 {: refdef}
 
-For the maximum value of the threshold, output signal is slightly reduced compared to the input signal, control signal is slightly greater than 0. Ideally the control signal should be equal to 0 (I assumed that envelope is less than 2V), but such minor reduction was acceptable for me. For the minimum value of the threshold the signal is greatly compressed, especially at the beginning of the sample.  
+For the maximum value of the threshold, output signal is slightly reduced compared to the input signal, control signal is slightly greater than 0. Ideally the control signal should be equal to 0 (I assumed that envelope is less than 2V), but such minor reduction was acceptable for me. Note that the control signal is very noisy compared to other tests where control signals drop to 0. I did not investigate this issue. For the minimum value of the threshold the signal is greatly compressed, especially at the beginning of the sample.  
 
 ### Limiter test
+The test checked operation of the limiter. To do it I turned end amplification opamp to maximum and turned ratio to minimum so that control signal was 0. Obtained result is shown below. 
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/compressor/measurements/limiter.png)   
+*Limiter*
+{: refdef}
+
+As expected the the output is significantly larger than the input. Maximum level of the output signal is slightly above 2V (which is approximately 3 diode drops that implement the limiter). Also in the first 100ms compressor output does not change significantly whereas in the input signal the sample decreases significantly in this time range. Also LEDs were emitting light during test. These observations confirm that the limiter is working.
