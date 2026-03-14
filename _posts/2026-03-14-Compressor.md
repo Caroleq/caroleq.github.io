@@ -1,16 +1,16 @@
 ---
 layout: post
 title: DIY Audio Compressor Project 
-date: 2026-01-15 00:00:00 +0000 
+date: 2026-03-14 00:00:00 +0000 
 tags:
   audio
   electronics
   compressor
 ---
 
-This article will describe an audio compressor which I built recently as a DIY project. The goal was mainly to build an electronic device that will teach me something new rather than to use the compressor for music production.
+This article will describe an audio compressor which I built recently as a DIY project. The goal was mainly to build an electronic device that will teach me something new rather than to use the compressor for music production.   
 
-The article contains requirements for the compressor, design of the electronic circuit, description of how the device has been assembled and tests which I run check the compressor operation.
+The article contains requirements for the compressor, design of the electronic circuit, description of how the device has been assembled and tests which I run check the compressor operation.   
 
 Prerequisites: The article does not explain what is an audio compressor, basic concepts of electronics, electronic elements and building blocks of electronic circuits that are widely known and their descriptions can be easily found on the Internet. 
 
@@ -95,7 +95,7 @@ Below picture shows circuit that performs full wave rectification:
 *Wave rectification circuit*
 {: refdef}
 
-The circuit is similar to inverting operational amplifier opamp, but a diode is plugged at the opamp's output. Its operation can be split into two cases:
+The circuit is similar to inverting operational amplifier, but a diode is plugged at the opamp's output. Its operation can be split into two cases:
 1. The input signal is negative - the opamp will produce positive output and current will flow through the diode similar as in the classical inverting amplifier. Because $$R_{17} = R_{18}$$, absolute values of input signal and rectified signal will be equal.  
 2. The input signal is positive - the diode will be reverse biased. Current will not flow through the diode. Thus if the circuit is not loaded, the input signal and rectified signal will be equal. Output of the circuit has impedance equal to $$R_{17} + R_{18}$$, so it cannot be connected to a circuit with a low input impedance.   
 
@@ -150,7 +150,7 @@ Below picture shows VCA circuit:
 *VCA circuit*
 {: refdef}
 
-Audio input signal is connected at the input of the circuit. C4 and R2 convert voltage signal into the current signal (this VCA has a current input signal), which enters the VCA. The signal is then multiplied by a gain (which for this signal range is 1 or less) determined by the circuit from section 4.3. The VCA outputs a current signal that is converted to the voltage signal by U6A opamp. 
+Audio input signal is connected at the input of the circuit. C4 removes DC component and R2 converts voltage signal into the current signal (this VCA has a current input signal), which enters the VCA. The signal is then multiplied by a gain (which for this signal range is 1 or less) determined by the circuit from section 4.3. The VCA outputs a current signal that is converted to the voltage signal by U6A opamp. 
 
 ### 4.3 End amplifier
 Below picture shows circuit that performs amplification of the VCA output and leads signal out of the compressor:  
