@@ -37,7 +37,7 @@ I did not specify ranges of values for release, attack, ratio, threshold and amp
 
 Other requirements:
 - maximum output voltage - around 5V peak-to-peak
-- output impedance slightly greater than 0 (10Ω-60Ω)
+- output impedance is reasonably small  
 - the input can accept signal of relatively big impedance, say 1kΩ
   
 
@@ -170,7 +170,7 @@ Below screen shows circuit that limits signal returned by the compressor:
 *Signal limitation*
 {: refdef}
 
-The goal of the circuit is to prevent excessive signal volume to be output by the compressor. The circuit takes VCA output amplified by the end opamp. If the magnitude of the signal exceeds 3 diode voltage drops, diodes D11, D10, D9 will conduct current which will limit the signal to 3 diode drops. When diodes D11, D10, D9 open, voltage at the base of Q1 transistor will rise. As a result the transistor will open and LED D5 will start to emit light. Diodes D6, D7, D8 and transistor Q2 operate similarly when magnitude of the signal drops 3 diode voltage drops below 0V.
+The goal of the circuit is to prevent excessive signal volume to be output by the compressor. The circuit takes VCA output amplified by the end opamp. If the magnitude of the signal exceeds 3 diode voltage drops, diodes D11, D10, D9 will conduct current which will limit the signal to 3 diode drops. When diodes D11, D10, D9 open, voltage at the base of Q1 transistor will rise. As a result the transistor will open and LED D5 will start to emit light. Diodes D6, D7, D8 and transistor Q2 operate similarly when magnitude of the signal drops 3 diode voltage drops below 0V. Resistor R15 prevents too big current from flowing through diodes.   
 When the limit system is on, the compressor output will likely become distorted. 
 
 ### 4.5 Selection of electronic components
@@ -291,7 +291,7 @@ The test checked operation of the hard/soft knee parameter. Diagrams below shows
 *Hard knee*
 {: refdef}
 
-An error turned up while performing the test. Switching the knee was causing high oscillations that could last a few minutes. Shape of control signal did not differ significantly for these two knee types. Also the control signal shape of both knees differs significantly from control signal shapes obtained during other tests, which is unexpected. My conclusion was that there was an issue with this parameter, but I decided to ignore that.
+An error turned up while performing the test. Switching the knee was causing high oscillations that could last a few minutes. Shape of control signal did not differ significantly for these two knee types. Also the control signal shape of both knees differs significantly from control signal shapes obtained during other tests, which is unexpected. My conclusion was that there was an issue with this parameter, but I decided to ignore that. Possible cause was that during knee type switching feedback loop of U1A opamp was disconnected for a short period of time. As a result the opamp produced a large positive or negative voltage. After the feedback is connected again this big voltage is transferred to the capacitor C1 which breaks the envelope generation and possibly disrupts operation of U1A, because of the voltage in the feedback path.   
 
 
 ### Ratio test
